@@ -9,7 +9,7 @@
             "Escherchia\\LaravelScenarioLogger\\": "/src"
         },
         "files": [
-            "src/helpers.php"
+            "src/helpers/helpers.php"
         ]
     },
     "require": {

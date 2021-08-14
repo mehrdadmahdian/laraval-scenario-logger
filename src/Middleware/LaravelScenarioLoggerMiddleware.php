@@ -4,11 +4,9 @@ namespace Escherchia\LaravelScenarioLogger\Middleware;
 
 use App\Models\User;
 use Closure;
-use Escherchia\LaravelScenarioLogger\LSL;
-use http\Client\Response;
-use Illuminate\Support\Facades\Auth;
+use Escherchia\LaravelScenarioLogger\Logger\ScenarioLogger;
 
-class LSLMiddleware
+class LaravelScenarioLoggerMiddleware
 {
     /**
      * @param $request
@@ -21,17 +19,23 @@ class LSLMiddleware
 //        LSL::addRequest($request);
 //        if (Auth::user())
 //            LSL::addUser(Auth::user());
-        User::find(5)->update([
+        $user = User::create([
             'name' => 'sdsdadfadfv',
             'email' => rand(),
             'password' => 'sdsdadfadfv',
         ]);
+        User::find($user->id)->update([
+            'name' => 'sdsdadfadfv',
+            'email' => rand(),
+            'password' => 'sdsdadfadfv',
+        ]);
+        $user->delete();
         $response = $next($request);
 //        if ($response instanceof Response) {
 //            LSL::addResponse($response);
 //        }
 //        LSL::finish();
-
+        dd(ScenarioLogger::report());
         return $response;
     }
 }
