@@ -20,8 +20,8 @@ class LSLServiceProvider extends ServiceProvider
     {
         $this->app->make(Kernel::class)->pushMiddleware(LSLMiddleware::class);
 
-        Event::listen(['eloquent.saved: *', 'eloquent.created: *'], function() {
-            dd('here');
+        Event::listen(['*'], function($model, $data) {
+            dump($model, $data);
         });
     }
 }

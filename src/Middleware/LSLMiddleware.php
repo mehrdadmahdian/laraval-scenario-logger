@@ -21,9 +21,9 @@ class LSLMiddleware
 //        LSL::addRequest($request);
 //        if (Auth::user())
 //            LSL::addUser(Auth::user());
-        User::create([
+        User::find(5)->update([
             'name' => 'sdsdadfadfv',
-            'email' => 'sdsdadfadfv',
+            'email' => rand(),
             'password' => 'sdsdadfadfv',
         ]);
         $response = $next($request);
