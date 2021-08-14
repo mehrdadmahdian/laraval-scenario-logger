@@ -4,11 +4,19 @@ namespace Escherchia\LaravelScenarioLogger\Logger;
 
 use Escherchia\LaravelScenarioLogger\Logger\Services\LoggerServiceFactory;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LoggerServiceInterface;
+use Escherchia\LaravelScenarioLogger\StorageDrivers\StorageService;
 use Illuminate\Support\Facades\Config;
 
 class ScenarioLogger
 {
+    /**
+     * @var
+     */
     private static $instance;
+
+    /**
+     * @var
+     */
     private $started_at;
 
     /**
@@ -16,26 +24,15 @@ class ScenarioLogger
      */
     private $serviceContainer;
 
+    /**
+     * @var StorageService
+     */
+    private $storageService;
+
     protected function __construct()
     {
         $this->registerServices();
-    }
-
-    protected function __clone() { }
-
-    public static function getInstance(): ScenarioLogger
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new static();
-        }
-
-        return self::$instance;
-    }
-
-    public static function start(): void
-    {
-        static::getInstance();
-        self::$instance->started_at = now();
+        $this->storageService = new StorageService();
     }
 
     private function registerServices()
@@ -59,6 +56,21 @@ class ScenarioLogger
         }
     }
 
+    public static function getInstance(): ScenarioLogger
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new static();
+        }
+
+        return self::$instance;
+    }
+
+    public static function start(): void
+    {
+        static::getInstance();
+        self::$instance->started_at = now();
+    }
+
     public static function report()
     {
         $serviceReports = [];
@@ -70,6 +82,11 @@ class ScenarioLogger
             'started_at' => self::getInstance()->started_at,
             'services' => $serviceReports
         ];
+    }
+
+    public static function save()
+    {
+        self::getInstance()->storageService->store(static::report());
     }
 
 }

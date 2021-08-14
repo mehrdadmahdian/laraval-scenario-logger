@@ -28,10 +28,16 @@ class LogModelChanges implements LoggerServiceInterface
         Event::listen(['eloquent.updated:*'], function($event, $data) {
             $model = str_replace('eloquent.updated: ','', $event);
             if ($this->modelShouldBeTracked($model)) {
+                $changes  = (isset($data[0]) && $data[0] instanceof Model)? $data[0]->getChanges() : [];
+                $olds = [];
+                foreach($changes as $key => $value) {
+                    $olds[$key] = $data[0]->getOriginal($key);
+                }
                 $track = [
                     'model' => $model,
                     'type' => 'updated',
-                    'data' => (isset($data[0]) && $data[0] instanceof Model)? $data[0]->getChanges() : null
+                    'new' => (isset($data[0]) && $data[0] instanceof Model)? $data[0]->getChanges() : null,
+                    'old' => $olds
                 ];
                 $this->tracks[] = $track;
             }

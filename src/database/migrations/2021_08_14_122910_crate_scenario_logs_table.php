@@ -15,6 +15,7 @@ class CrateScenarioLogsTable extends Migration
     {
         Schema::create(lsl_db_pfx().'scenario_logs', function (Blueprint $table) {
             $table->id();
+            $table->text('raw_log');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ class CrateScenarioLogsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop(lsl_db_pfx().'scenario_logs');
     }
 }

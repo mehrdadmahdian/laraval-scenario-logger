@@ -35,7 +35,8 @@ class LaravelScenarioLoggerMiddleware
 //            LSL::addResponse($response);
 //        }
 //        LSL::finish();
-        dd(ScenarioLogger::report());
+
+        ScenarioLogger::save();
         return $response;
     }
 }
