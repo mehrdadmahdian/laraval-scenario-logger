@@ -1,0 +1,25 @@
+{
+    "name": "escherchia/laravel-scenario-logger",
+    "description": "This package helps you to track your requests",
+    "type": "libr",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Escherchia\\LaravelScenarioLogger\\": "/src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "require": {
+        "laravel/framework" : "*"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Escherchia\\LaravelScenarioLogger\\LSLServiceProvider"
+            ]
+        }
+    }
+}
