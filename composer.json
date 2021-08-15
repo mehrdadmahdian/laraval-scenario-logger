@@ -15,6 +15,9 @@
     "require": {
         "laravel/framework" : "*"
     },
+    "require-dev": {
+        "orchestra/testbench": "6.x-dev"
+    },
     "extra": {
         "laravel": {
             "providers": [
