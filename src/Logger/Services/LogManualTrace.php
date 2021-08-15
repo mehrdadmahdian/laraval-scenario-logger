@@ -1,12 +1,6 @@
 <?php
 
-
 namespace Escherchia\LaravelScenarioLogger\Logger\Services;
-
-
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Event;
 
 class LogManualTrace implements LoggerServiceInterface
 {
@@ -17,7 +11,6 @@ class LogManualTrace implements LoggerServiceInterface
 
     public function boot(): void
     {
-
     }
 
     /**
@@ -31,6 +24,7 @@ class LogManualTrace implements LoggerServiceInterface
                 unset($data[$key]);
             }
         }
+
         return $data;
     }
 
@@ -49,21 +43,21 @@ class LogManualTrace implements LoggerServiceInterface
      * @param string|null $triggeringMethod
      * @param string|null $triggeringLine
      */
-    public function manualLog(string $message,
-                              array $data = array(),
-                              string $triggeringFile = null,
-                              string $triggeringMethod = null,
-                              string $triggeringLine = null
-    )
-    {
+    public function manualLog(
+        string $message,
+        array $data = array(),
+        string $triggeringFile = null,
+        string $triggeringMethod = null,
+        string $triggeringLine = null
+    ) {
         $this->trace [] = [
             'message' => $message,
             'data'    => $data,
             'location' => [
                 'file'      => $triggeringFile,
                 'method'    => $triggeringMethod,
-                'line'      => $triggeringLine
-            ]
+                'line'      => $triggeringLine,
+            ],
         ];
     }
 }

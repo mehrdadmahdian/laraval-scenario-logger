@@ -13,6 +13,7 @@ class LoggerServiceFactory
     {
         if (isset(static::getList()[$key])) {
             $className = static::getList()[$key];
+
             return new $className();
         } else {
             throw new \Exception('logger service is not found ');
@@ -29,8 +30,7 @@ class LoggerServiceFactory
             'log-request'        => LogRequest::class,
             'log-response'       => LogResponse::class,
             'log-exception'       => LogException::class,
-            'log-manual-trace'   => LogManualTrace::class
+            'log-manual-trace'   => LogManualTrace::class,
         ];
     }
-
 }

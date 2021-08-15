@@ -1,14 +1,6 @@
 <?php
 
-
 namespace Escherchia\LaravelScenarioLogger\Logger\Services;
-
-
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Event;
 
 class LogException implements LoggerServiceInterface
 {
@@ -22,7 +14,6 @@ class LogException implements LoggerServiceInterface
      */
     public function boot(): void
     {
-
     }
 
     /**
@@ -32,10 +23,13 @@ class LogException implements LoggerServiceInterface
     {
         return [
             'message' => $this->throwable->getMessage(),
-            'trace' => $this->throwable->getTraceAsString()
+            'trace' => $this->throwable->getTraceAsString(),
         ];
     }
 
+    /**
+     * @param mixed $data
+     */
     public function log($data): void
     {
         /** @var \Throwable $request */

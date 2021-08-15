@@ -13,5 +13,4 @@ interface ScenarioLoggerUserProviderInterface
      * @return string
      */
     public function getName(): string;
-
 }

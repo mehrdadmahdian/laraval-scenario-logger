@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Escherchia\LaravelScenarioLogger\Logger\Services;
-
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\TransactionBeginning;
@@ -25,36 +23,36 @@ class LogModelChanges implements LoggerServiceInterface
     {
         $this->currentTransactionUniqueCode = microtime();
 
-        Event::listen(['eloquent.created:*'], function($event, $data) {
-            $model = str_replace('eloquent.created: ','', $event);
+        Event::listen(['eloquent.created:*'], function ($event, $data) {
+            $model = str_replace('eloquent.created: ', '', $event);
             if ($this->modelShouldBeTracked($model)) {
                 $track = [
                    'model' => $model,
                    'type' => 'created',
-                   'data' => (isset($data[0]) && $data[0] instanceof Model)? $data[0]->getAttributes() : null
+                   'data' => (isset($data[0]) && $data[0] instanceof Model)? $data[0]->getAttributes() : null,
                 ];
                 $this->tracks[$this->currentTransactionUniqueCode][] = $track;
             }
         });
-        Event::listen(['eloquent.updated:*'], function($event, $data) {
-            $model = str_replace('eloquent.updated: ','', $event);
+        Event::listen(['eloquent.updated:*'], function ($event, $data) {
+            $model = str_replace('eloquent.updated: ', '', $event);
             if ($this->modelShouldBeTracked($model)) {
                 $changes  = (isset($data[0]) && $data[0] instanceof Model)? $data[0]->getChanges() : [];
                 $olds = [];
-                foreach($changes as $key => $value) {
+                foreach ($changes as $key => $value) {
                     $olds[$key] = $data[0]->getOriginal($key);
                 }
                 $track = [
                     'model' => $model,
                     'type' => 'updated',
                     'new' => (isset($data[0]) && $data[0] instanceof Model)? $data[0]->getChanges() : null,
-                    'old' => $olds
+                    'old' => $olds,
                 ];
                 $this->tracks[$this->currentTransactionUniqueCode][] = $track;
             }
         });
-        Event::listen(['eloquent.deleted:*'], function($event, $data) {
-            $model = str_replace('eloquent.deleted: ','', $event);
+        Event::listen(['eloquent.deleted:*'], function ($event, $data) {
+            $model = str_replace('eloquent.deleted: ', '', $event);
             if ($this->modelShouldBeTracked($model)) {
                 $track = [
                     'model' => $model,
@@ -63,14 +61,14 @@ class LogModelChanges implements LoggerServiceInterface
                 $this->tracks[$this->currentTransactionUniqueCode][] = $track;
             }
         });
-        Event::listen([TransactionBeginning::class], function($event) {
+        Event::listen([TransactionBeginning::class], function ($event) {
             $this->currentTransactionUniqueCode = microtime();
         });
-        Event::listen([TransactionCommitted::class], function($event) {
+        Event::listen([TransactionCommitted::class], function ($event) {
             $this->transactionStatus[$this->currentTransactionUniqueCode] = 'commited';
             $this->currentTransactionUniqueCode = microtime();
         });
-        Event::listen([TransactionRolledBack::class], function($event) {
+        Event::listen([TransactionRolledBack::class], function ($event) {
             $this->transactionStatus[$this->currentTransactionUniqueCode] = 'rollbacked';
             $this->currentTransactionUniqueCode = microtime();
         });
@@ -83,13 +81,14 @@ class LogModelChanges implements LoggerServiceInterface
     {
         $data =  [
           'transaction_status' => $this->transactionStatus,
-          'changes' => $this->tracks
+          'changes' => $this->tracks,
         ];
         foreach ($data as $key => $datum) {
             if (is_null($datum) or (is_array($datum) and count($datum) == 0)) {
                 unset($data[$key]);
             }
         }
+
         return $data;
     }
 
@@ -104,6 +103,7 @@ class LogModelChanges implements LoggerServiceInterface
         if (in_array($model, $tobeTrackedModels)) {
             return true;
         }
+
         return false;
     }
 

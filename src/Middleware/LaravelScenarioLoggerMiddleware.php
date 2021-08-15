@@ -2,10 +2,10 @@
 
 namespace Escherchia\LaravelScenarioLogger\Middleware;
 
-use App\Models\User;
 use Closure;
 use Escherchia\LaravelScenarioLogger\Logger\ScenarioLogger;
 use Illuminate\Support\Facades\Auth;
+
 class LaravelScenarioLoggerMiddleware
 {
     /**

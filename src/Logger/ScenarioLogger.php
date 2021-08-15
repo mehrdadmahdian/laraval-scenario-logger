@@ -57,8 +57,8 @@ class ScenarioLogger
     {
         $this->serviceContainer = new LoggerServiceContainer();
 
-        foreach(Config::get('laravel-scenario-logger.active-services') as $activeService) {
-            if (class_exists($activeService) and class_implements($activeService,LoggerServiceInterface::class)) {
+        foreach (Config::get('laravel-scenario-logger.active-services') as $activeService) {
+            if (class_exists($activeService) and class_implements($activeService, LoggerServiceInterface::class)) {
                 $this->serviceContainer->add($activeService, new $activeService());
             } else {
                 $activeServiceObject = LoggerServiceFactory::factory($activeService);
@@ -69,7 +69,7 @@ class ScenarioLogger
         }
 
         /** @var LoggerServiceInterface $service */
-        foreach($this->serviceContainer->all() as $service) {
+        foreach ($this->serviceContainer->all() as $service) {
             $service->boot();
         }
     }
@@ -92,7 +92,7 @@ class ScenarioLogger
     public static function start(): void
     {
         static::getInstance();
-        self::$instance->started_at = Carbon::now()->format('Y-m-d H:i:s.u');;
+        self::$instance->started_at = Carbon::now()->format('Y-m-d H:i:s.u');
     }
 
     /**
@@ -102,19 +102,19 @@ class ScenarioLogger
     {
         $serviceReports = [];
         /** @var LoggerServiceInterface $service */
-
         foreach (self::getInstance()->serviceContainer->all() as $key => $service) {
             $report = $service->report() ;
             if (count($report)) {
                 $serviceReports[$key] = $service->report();
             }
         }
+
         return [
             'user_id' => self::getInstance()->user ? self::getInstance()->user->getId() : null,
             'user_name' => self::getInstance()->user ? self::getInstance()->user->getId(): null,
             'started_at' => self::getInstance()->started_at,
             'finished_at' => self::getInstance()->finished_at,
-            'services' => $serviceReports
+            'services' => $serviceReports,
         ];
     }
 
@@ -166,5 +166,4 @@ class ScenarioLogger
             );
         }
     }
-
 }
