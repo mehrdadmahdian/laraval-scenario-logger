@@ -5,7 +5,7 @@ namespace Escherchia\LaravelScenarioLogger\Middleware;
 use App\Models\User;
 use Closure;
 use Escherchia\LaravelScenarioLogger\Logger\ScenarioLogger;
-
+use Illuminate\Support\Facades\Auth;
 class LaravelScenarioLoggerMiddleware
 {
     /**
@@ -15,27 +15,21 @@ class LaravelScenarioLoggerMiddleware
      */
     public function handle($request, Closure $next)
     {
-//        LSL::start();
-//        LSL::addRequest($request);
-//        if (Auth::user())
-//            LSL::addUser(Auth::user());
-        $user = User::create([
-            'name' => 'sdsdadfadfv',
-            'email' => rand(),
-            'password' => 'sdsdadfadfv',
-        ]);
-        User::find($user->id)->update([
-            'name' => 'sdsdadfadfv',
-            'email' => rand(),
-            'password' => 'sdsdadfadfv',
-        ]);
+        if (lsl_service_is_active('log-request'))
+            ScenarioLogger::logForService('log-request', $request);
+
+        if (Auth::user())
+            ScenarioLogger::setUser(Auth::user());
+
+
+        $user = User::create(['name' => 'sdsdadfadfv', 'email' => rand(), 'password' => 'sdsdadfadfv']);
+        User::find($user->id)->update(['name' => 'sdsdadfadfv', 'email' => rand(), 'password' => 'sdsdadfadfv']);
         $user->delete();
+
         $response = $next($request);
-//        if ($response instanceof Response) {
-//            LSL::addResponse($response);
-//        }
-//        LSL::finish();
-        ScenarioLogger::save();
+
+        ScenarioLogger::finish();
+
         return $response;
     }
 }

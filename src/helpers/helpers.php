@@ -16,3 +16,12 @@ function lsl_is_active()
     return Config::has('laravel-scenario-logger.is_active') ? Config::get('laravel-scenario-logger.is_active') : '';
 }
 
+function lsl_service_is_active($serviceKey): bool
+{
+    $activeServices = Config::get('laravel-scenario-logger.active-services');
+    if (in_array($serviceKey, $activeServices)) {
+        return true;
+    }
+    return false;
+}
+

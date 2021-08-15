@@ -2,6 +2,8 @@
 
 namespace Escherchia\LaravelScenarioLogger\Logger;
 
+use Carbon\Carbon;
+use Escherchia\LaravelScenarioLogger\Contracts\ScenarioLoggerUserProviderInterface;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LoggerServiceFactory;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LoggerServiceInterface;
 use Escherchia\LaravelScenarioLogger\StorageDrivers\StorageService;
@@ -15,9 +17,14 @@ class ScenarioLogger
     private static $instance;
 
     /**
-     * @var
+     * @var string
      */
     private $started_at;
+
+    /**
+     * @var string
+     */
+    private $finished_at;
 
     /**
      * @var LoggerServiceContainer
@@ -29,12 +36,23 @@ class ScenarioLogger
      */
     private $storageService;
 
+    /**
+     * @var ScenarioLoggerUserProviderInterface
+     */
+    private $user;
+
+    /**
+     * ScenarioLogger constructor.
+     */
     protected function __construct()
     {
         $this->registerServices();
         $this->storageService = new StorageService();
     }
 
+    /**
+     * @throws \Exception
+     */
     private function registerServices()
     {
         $this->serviceContainer = new LoggerServiceContainer();
@@ -56,6 +74,9 @@ class ScenarioLogger
         }
     }
 
+    /**
+     * @return ScenarioLogger
+     */
     public static function getInstance(): ScenarioLogger
     {
         if (!isset(self::$instance)) {
@@ -65,13 +86,19 @@ class ScenarioLogger
         return self::$instance;
     }
 
+    /**
+     *
+     */
     public static function start(): void
     {
         static::getInstance();
         self::$instance->started_at = now();
     }
 
-    public static function report()
+    /**
+     * @return array
+     */
+    public static function report(): array
     {
         $serviceReports = [];
         /** @var LoggerServiceInterface $service */
@@ -84,9 +111,33 @@ class ScenarioLogger
         ];
     }
 
-    public static function save()
+    /**
+     *
+     */
+    public static function finish(): void
     {
-        self::getInstance()->storageService->store(static::report());
+        self::getInstance()->finished_at = Carbon::now()->format('Y-m-d H:i:s');
+        self::getInstance()->storageService->store(array_merge(static::report(), ['finished_at' => self::getInstance()->finished_at]));
+    }
+
+    /**
+     * @param $serviceKey
+     * @param mixed ...$data
+     */
+    public static function logForService($serviceKey, $data): void
+    {
+        $service = self::getInstance()->serviceContainer->get($serviceKey);
+        if ($service and $service instanceof LoggerServiceInterface) {
+            $service->log($data);
+        }
+    }
+
+    /**
+     * @param ScenarioLoggerUserProviderInterface $user
+     */
+    public static function setUser(ScenarioLoggerUserProviderInterface $user)
+    {
+        self::getInstance()->user = $user;
     }
 
 }

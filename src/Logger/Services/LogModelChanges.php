@@ -5,6 +5,9 @@ namespace Escherchia\LaravelScenarioLogger\Logger\Services;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Events\TransactionBeginning;
+use Illuminate\Database\Events\TransactionCommitted;
+use Illuminate\Database\Events\TransactionRolledBack;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 
@@ -12,8 +15,16 @@ class LogModelChanges implements LoggerServiceInterface
 {
     private $tracks = [];
 
-    public function boot()
+    private $currentTransactionUniqueCode = null;
+    private $transactionStatus = [];
+
+    /**
+     *
+     */
+    public function boot(): void
     {
+        $this->currentTransactionUniqueCode = microtime();
+
         Event::listen(['eloquent.created:*'], function($event, $data) {
             $model = str_replace('eloquent.created: ','', $event);
             if ($this->modelShouldBeTracked($model)) {
@@ -22,7 +33,7 @@ class LogModelChanges implements LoggerServiceInterface
                    'type' => 'created',
                    'data' => (isset($data[0]) && $data[0] instanceof Model)? $data[0]->getAttributes() : null
                 ];
-                $this->tracks[] = $track;
+                $this->tracks[$this->currentTransactionUniqueCode][] = $track;
             }
         });
         Event::listen(['eloquent.updated:*'], function($event, $data) {
@@ -39,7 +50,7 @@ class LogModelChanges implements LoggerServiceInterface
                     'new' => (isset($data[0]) && $data[0] instanceof Model)? $data[0]->getChanges() : null,
                     'old' => $olds
                 ];
-                $this->tracks[] = $track;
+                $this->tracks[$this->currentTransactionUniqueCode][] = $track;
             }
         });
         Event::listen(['eloquent.deleted:*'], function($event, $data) {
@@ -49,16 +60,37 @@ class LogModelChanges implements LoggerServiceInterface
                     'model' => $model,
                     'type' => 'deleted',
                 ];
-                $this->tracks[] = $track;
+                $this->tracks[$this->currentTransactionUniqueCode][] = $track;
             }
+        });
+        Event::listen([TransactionBeginning::class], function($event) {
+            $this->currentTransactionUniqueCode = microtime();
+        });
+        Event::listen([TransactionCommitted::class], function($event) {
+            $this->transactionStatus[$this->currentTransactionUniqueCode] = 'commited';
+            $this->currentTransactionUniqueCode = microtime();
+        });
+        Event::listen([TransactionRolledBack::class], function($event) {
+            $this->transactionStatus[$this->currentTransactionUniqueCode] = 'rollbacked';
+            $this->currentTransactionUniqueCode = microtime();
         });
     }
 
-    public function report()
+    /**
+     * @return array
+     */
+    public function report(): array
     {
-        return $this->tracks;
+        return [
+          'transaction_status' => $this->transactionStatus,
+          'changes' => $this->tracks
+        ] ;
     }
 
+    /**
+     * @param $model
+     * @return bool
+     */
     private function modelShouldBeTracked($model): bool
     {
         $tobeTrackedModels = Config::get('laravel-scenario-logger.service-configuration.log-model-changes.models');
@@ -67,5 +99,13 @@ class LogModelChanges implements LoggerServiceInterface
             return true;
         }
         return false;
+    }
+
+    /**
+     * @param mixed ...$data
+     */
+    public function log($data): void
+    {
+        // TODO: Implement log() method.
     }
 }

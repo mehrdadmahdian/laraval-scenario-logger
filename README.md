@@ -7,5 +7,5 @@ This package helps your laravel app
 - method PHPDocs
 - descriptive comment for config items
 - tests
-- usage instruction
+- usage instruction on readme
 - update basic config file

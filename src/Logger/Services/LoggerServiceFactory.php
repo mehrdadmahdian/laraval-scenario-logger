@@ -17,7 +17,8 @@ class LoggerServiceFactory
     public static function getList()
     {
         return [
-            'log-model-changes'  => LogModelChanges::class
+            'log-model-changes'  => LogModelChanges::class,
+            'log-request'  => LogRequest::class
         ];
     }
 
