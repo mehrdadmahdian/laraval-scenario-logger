@@ -92,7 +92,7 @@ class ScenarioLogger
     public static function start(): void
     {
         static::getInstance();
-        self::$instance->started_at = now();
+        self::$instance->started_at = Carbon::now()->format('Y-m-d H:i:s');;
     }
 
     /**
