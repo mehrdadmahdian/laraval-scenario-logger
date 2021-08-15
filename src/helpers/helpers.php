@@ -22,6 +22,6 @@ function lsl_service_is_active($serviceKey): bool
     if (in_array($serviceKey, $activeServices)) {
         return true;
     }
+
     return false;
 }
-

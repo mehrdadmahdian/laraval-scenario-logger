@@ -1,13 +1,8 @@
 <?php
 
-
 namespace Escherchia\LaravelScenarioLogger\Logger\Services;
 
-
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Event;
 
 class LogRequest implements LoggerServiceInterface
 {
@@ -18,7 +13,6 @@ class LogRequest implements LoggerServiceInterface
      */
     public function boot(): void
     {
-
     }
 
     /**
@@ -35,7 +29,7 @@ class LogRequest implements LoggerServiceInterface
                 'method' => $this->request->method(),
                 'port' => $this->request->getPort(),
                 'ip' => $this->request->getClientIp(),
-                'segments' => $this->request->segments()
+                'segments' => $this->request->segments(),
             ];
         } else {
             return [];
@@ -49,8 +43,8 @@ class LogRequest implements LoggerServiceInterface
     {
         /** @var Request $request */
         $request = $data;
-         if ($request instanceof Request) {
-             $this->request = clone $request;
-         }
+        if ($request instanceof Request) {
+            $this->request = clone $request;
+        }
     }
 }

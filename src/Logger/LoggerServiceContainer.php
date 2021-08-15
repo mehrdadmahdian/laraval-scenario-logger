@@ -51,5 +51,4 @@ class LoggerServiceContainer
     {
         unset($this->items[$key]);
     }
-
 }

@@ -15,9 +15,10 @@ class DriverFactory
     {
         if (isset(static::getList()[$key])) {
             $className = static::getList()[$key];
+
             return new $className();
         } else {
-            if (class_exists($key) and class_implements($key,StorageDriverInterface::class)) {
+            if (class_exists($key) and class_implements($key, StorageDriverInterface::class)) {
                 return new $key;
             } else {
                 throw new \Exception('storage driver could not be construced.');
@@ -31,8 +32,7 @@ class DriverFactory
     public static function getList()
     {
         return [
-            'database'  => DatabaseDriver::class
+            'database'  => DatabaseDriver::class,
         ];
     }
-
 }

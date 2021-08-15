@@ -1,14 +1,9 @@
 <?php
 
-
 namespace Escherchia\LaravelScenarioLogger\Logger\Services;
 
-
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Event;
 
 class LogResponse implements LoggerServiceInterface
 {
@@ -22,7 +17,6 @@ class LogResponse implements LoggerServiceInterface
      */
     public function boot(): void
     {
-
     }
 
     /**
@@ -36,12 +30,11 @@ class LogResponse implements LoggerServiceInterface
                 'status_code' => $this->response ? $this->response->status() : null,
                 'status_text' => $this->response ? $this->response->statusText() : null,
                 'content' => $this->response ? $this->response->getContent() : null,
-                'content_type' => $this->response ? get_class($this->response->getOriginalContent()) : null
+                'content_type' => $this->response ? get_class($this->response->getOriginalContent()) : null,
             ];
             if (
                 Config::has('laravel-scenario-logger.service-configuration.log-response.disable-store-content') &&
-                Config::get('laravel-scenario-logger.service-configuration.log-response.disable-store-content'))
-            {
+                Config::get('laravel-scenario-logger.service-configuration.log-response.disable-store-content')) {
                 unset($data['content']);
             }
         }
@@ -55,7 +48,6 @@ class LogResponse implements LoggerServiceInterface
     public function log($data): void
     {
         /** @var Response $request */
-
         $response = $data;
 
         if ($response instanceof Response) {

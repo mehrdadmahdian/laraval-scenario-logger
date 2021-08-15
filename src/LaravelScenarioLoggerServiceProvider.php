@@ -5,7 +5,6 @@ namespace Escherchia\LaravelScenarioLogger;
 use Escherchia\LaravelScenarioLogger\Logger\ScenarioLogger;
 use Escherchia\LaravelScenarioLogger\Middleware\LaravelScenarioLoggerMiddleware;
 use Illuminate\Contracts\Http\Kernel;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class LaravelScenarioLoggerServiceProvider extends ServiceProvider
@@ -31,4 +30,3 @@ class LaravelScenarioLoggerServiceProvider extends ServiceProvider
         }
     }
 }
-
