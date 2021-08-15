@@ -1,0 +1,33 @@
+{
+    "name": "escherchia/laravel-scenario-logger",
+    "description": "This package helps you to track your requests in a single snapshot",
+    "type": "libr",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Escherchia\\LaravelScenarioLogger\\": "/src"
+        },
+        "files": [
+            "src/helpers/helpers.php"
+        ]
+    },
+    "require": {
+        "laravel/framework" : "*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "6.x-dev",
+        "friendsofphp/php-cs-fixer": "^2.16"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Escherchia\\LaravelScenarioLogger\\LSLServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "pcf": "vendor/bin/php-cs-fixer fix --verbose"
+    }
+}
