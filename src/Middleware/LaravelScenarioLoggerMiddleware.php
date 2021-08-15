@@ -15,22 +15,14 @@ class LaravelScenarioLoggerMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (lsl_service_is_active('log-request'))
-            ScenarioLogger::logForService('log-request', $request);
-
-        if (Auth::user())
-            ScenarioLogger::setUser(Auth::user());
-
-        $user = User::create(['name' => 'sdsdadfadfv', 'email' => rand(), 'password' => 'sdsdadfadfv']);
-        User::find($user->id)->update(['name' => 'sdsdadfadfv', 'email' => rand(), 'password' => 'sdsdadfadfv']);
-        $user->delete();
+        lsl_service_is_active('log-request') ? ScenarioLogger::logForService('log-request', $request): null;
+        Auth::check() ? ScenarioLogger::setUser(Auth::user()) : null;
 
         $response = $next($request);
 
-        if (lsl_service_is_active('log-response'))
-            ScenarioLogger::logForService('log-response', $response);
-
+        lsl_service_is_active('log-response') ? ScenarioLogger::logForService('log-response', $response): null;
         ScenarioLogger::finish();
+
         return $response;
     }
 }

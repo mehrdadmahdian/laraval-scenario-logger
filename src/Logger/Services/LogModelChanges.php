@@ -81,10 +81,16 @@ class LogModelChanges implements LoggerServiceInterface
      */
     public function report(): array
     {
-        return [
+        $data =  [
           'transaction_status' => $this->transactionStatus,
           'changes' => $this->tracks
-        ] ;
+        ];
+        foreach ($data as $key => $datum) {
+            if (is_null($datum) or (is_array($datum) and count($datum) == 0)) {
+                unset($data[$key]);
+            }
+        }
+        return $data;
     }
 
     /**

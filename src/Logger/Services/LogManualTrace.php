@@ -25,7 +25,13 @@ class LogManualTrace implements LoggerServiceInterface
      */
     public function report(): array
     {
-        return $this->trace;
+        $data =  $this->trace;
+        foreach ($data as $key => $datum) {
+            if (is_null($datum) or (is_array($datum) and count($datum) == 0)) {
+                unset($data[$key]);
+            }
+        }
+        return $data;
     }
 
     /**
