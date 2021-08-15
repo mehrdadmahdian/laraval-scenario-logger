@@ -10,12 +10,54 @@ use Illuminate\Support\Facades\Event;
 
 class LogManualTrace implements LoggerServiceInterface
 {
+    /**
+     * @var array
+     */
+    private $trace = [];
+
     public function boot(): void
     {
 
     }
 
+    /**
+     * @return array
+     */
     public function report(): array
     {
+        return $this->trace;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function log($data): void
+    {
+        $this->trace[] = $data;
+    }
+
+    /**
+     * @param string $message
+     * @param array $data
+     * @param string|null $triggeringFile
+     * @param string|null $triggeringMethod
+     * @param string|null $triggeringLine
+     */
+    public function manualLog(string $message,
+                              array $data = array(),
+                              string $triggeringFile = null,
+                              string $triggeringMethod = null,
+                              string $triggeringLine = null
+    )
+    {
+        $this->trace [] = [
+            'message' => $message,
+            'data'    => $data,
+            'location' => [
+                'file'      => $triggeringFile,
+                'method'    => $triggeringMethod,
+                'line'      => $triggeringLine
+            ]
+        ];
     }
 }

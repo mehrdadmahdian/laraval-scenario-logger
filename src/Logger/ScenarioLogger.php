@@ -143,4 +143,24 @@ class ScenarioLogger
         self::getInstance()->user = $user;
     }
 
+    /**
+     * @param string $message
+     * @param array $data
+     */
+    public static function pushToTrace(string $message, array $data = array()): void
+    {
+        $logManualTrace = self::getInstance()->serviceContainer->get('log-manual-trace');
+        if ($logManualTrace) {
+            $backtrace  = debug_backtrace();
+            $bt = $backtrace[1];
+            $logManualTrace->manualLog(
+                $message,
+                $data,
+                isset($bt['class']) ? $bt['class'] : null,
+                isset($bt['function']) ? $bt['function'] : null,
+                isset($bt['line']) ? $bt['line'] : null
+            );
+        }
+    }
+
 }

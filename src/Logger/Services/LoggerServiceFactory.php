@@ -18,7 +18,8 @@ class LoggerServiceFactory
     {
         return [
             'log-model-changes'  => LogModelChanges::class,
-            'log-request'  => LogRequest::class
+            'log-request'        => LogRequest::class,
+            'log-manual-trace'   => LogManualTrace::class
         ];
     }
 
