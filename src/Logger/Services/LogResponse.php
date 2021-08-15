@@ -49,6 +49,9 @@ class LogResponse implements LoggerServiceInterface
         return $data;
     }
 
+    /**
+     * @param mixed $data
+     */
     public function log($data): void
     {
         /** @var Response $request */

@@ -36,6 +36,9 @@ class LogException implements LoggerServiceInterface
         ];
     }
 
+    /**
+     * @param mixed $data
+     */
     public function log($data): void
     {
         /** @var \Throwable $request */

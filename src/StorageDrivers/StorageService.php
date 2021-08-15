@@ -11,11 +11,18 @@ class StorageService
      */
     private $driver;
 
+    /**
+     * @throws \Exception
+     */
     public function __construct()
     {
         $this->setDriver();
     }
 
+    /**
+     * @param null $driverKey
+     * @throws \Exception
+     */
     public function setDriver($driverKey = null)
     {
         if (!$driverKey)
@@ -24,6 +31,9 @@ class StorageService
         $this->driver = DriverFactory::factory($driverKey);
     }
 
+    /**
+     * @param array $data
+     */
     public function store(array $data)
     {
         $this->driver->store($data);

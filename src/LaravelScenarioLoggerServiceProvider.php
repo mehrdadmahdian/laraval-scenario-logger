@@ -10,6 +10,9 @@ use Illuminate\Support\ServiceProvider;
 
 class LaravelScenarioLoggerServiceProvider extends ServiceProvider
 {
+    /**
+     *
+     */
     public function register()
     {
         $this->publishes([ __DIR__ . '/config/config.php' => config_path('laravel-scenario-logger.php')]);
@@ -17,6 +20,9 @@ class LaravelScenarioLoggerServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
     }
 
+    /**
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
     public function boot()
     {
         if (lsl_is_active()) {

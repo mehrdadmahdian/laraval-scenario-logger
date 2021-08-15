@@ -13,11 +13,17 @@ class LogRequest implements LoggerServiceInterface
 {
     private $request;
 
+    /**
+     *
+     */
     public function boot(): void
     {
 
     }
 
+    /**
+     * @return array
+     */
     public function report(): array
     {
         if ($this->request instanceof Request) {
@@ -36,6 +42,9 @@ class LogRequest implements LoggerServiceInterface
         }
     }
 
+    /**
+     * @param mixed $data
+     */
     public function log($data): void
     {
         /** @var Request $request */

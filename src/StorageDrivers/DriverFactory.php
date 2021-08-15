@@ -6,6 +6,11 @@ use Escherchia\LaravelScenarioLogger\StorageDrivers\DatabaseDriver\DatabaseDrive
 
 class DriverFactory
 {
+    /**
+     * @param $key
+     * @return mixed
+     * @throws \Exception
+     */
     public static function factory($key)
     {
         if (isset(static::getList()[$key])) {
@@ -20,6 +25,9 @@ class DriverFactory
         }
     }
 
+    /**
+     * @return string[]
+     */
     public static function getList()
     {
         return [
