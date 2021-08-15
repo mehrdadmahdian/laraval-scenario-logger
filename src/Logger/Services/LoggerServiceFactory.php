@@ -28,6 +28,7 @@ class LoggerServiceFactory
             'log-model-changes'  => LogModelChanges::class,
             'log-request'        => LogRequest::class,
             'log-response'       => LogResponse::class,
+            'log-exception'       => LogException::class,
             'log-manual-trace'   => LogManualTrace::class
         ];
     }

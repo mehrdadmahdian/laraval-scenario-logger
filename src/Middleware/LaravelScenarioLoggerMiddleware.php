@@ -17,7 +17,7 @@ class LaravelScenarioLoggerMiddleware
     {
         lsl_service_is_active('log-request') ? ScenarioLogger::logForService('log-request', $request): null;
         Auth::check() ? ScenarioLogger::setUser(Auth::user()) : null;
-
+        throw new \Exception('asdasd');
         $response = $next($request);
 
         lsl_service_is_active('log-response') ? ScenarioLogger::logForService('log-response', $response): null;

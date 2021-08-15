@@ -102,6 +102,7 @@ class ScenarioLogger
     {
         $serviceReports = [];
         /** @var LoggerServiceInterface $service */
+
         foreach (self::getInstance()->serviceContainer->all() as $key => $service) {
             $report = $service->report() ;
             if (count($report)) {

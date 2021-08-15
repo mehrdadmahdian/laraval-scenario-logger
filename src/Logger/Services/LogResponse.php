@@ -30,19 +30,22 @@ class LogResponse implements LoggerServiceInterface
      */
     public function report(): array
     {
-        $data =  [
-            'status_code' => $this->response->status(),
-            'status_text' => $this->response->statusText(),
-            'content' => $this->response->getContent(),
-            'content_type' => get_class($this->response->getOriginalContent())
-        ];
-
-        if (
-            Config::has('laravel-scenario-logger.service-configuration.log-response.disable-store-content') &&
-            Config::get('laravel-scenario-logger.service-configuration.log-response.disable-store-content'))
-        {
-            unset($data['content']);
+        $data = [];
+        if ($this->response) {
+            $data =  [
+                'status_code' => $this->response ? $this->response->status() : null,
+                'status_text' => $this->response ? $this->response->statusText() : null,
+                'content' => $this->response ? $this->response->getContent() : null,
+                'content_type' => $this->response ? get_class($this->response->getOriginalContent()) : null
+            ];
+            if (
+                Config::has('laravel-scenario-logger.service-configuration.log-response.disable-store-content') &&
+                Config::get('laravel-scenario-logger.service-configuration.log-response.disable-store-content'))
+            {
+                unset($data['content']);
+            }
         }
+
         return $data;
     }
 
