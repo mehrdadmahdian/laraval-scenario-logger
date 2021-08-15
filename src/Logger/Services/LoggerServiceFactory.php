@@ -4,7 +4,12 @@ namespace Escherchia\LaravelScenarioLogger\Logger\Services;
 
 class LoggerServiceFactory
 {
-    public static function factory($key)
+    /**
+     * @param string $key
+     * @return mixed
+     * @throws \Exception
+     */
+    public static function factory(string $key)
     {
         if (isset(static::getList()[$key])) {
             $className = static::getList()[$key];
@@ -14,11 +19,15 @@ class LoggerServiceFactory
         }
     }
 
-    public static function getList()
+    /**
+     * @return array|string[]
+     */
+    public static function getList(): array
     {
         return [
             'log-model-changes'  => LogModelChanges::class,
             'log-request'        => LogRequest::class,
+            'log-response'       => LogResponse::class,
             'log-manual-trace'   => LogManualTrace::class
         ];
     }

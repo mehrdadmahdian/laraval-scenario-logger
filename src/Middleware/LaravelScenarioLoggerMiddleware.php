@@ -18,8 +18,6 @@ class LaravelScenarioLoggerMiddleware
         if (lsl_service_is_active('log-request'))
             ScenarioLogger::logForService('log-request', $request);
 
-        ScenarioLogger::pushToTrace('this is my trace');
-
         if (Auth::user())
             ScenarioLogger::setUser(Auth::user());
 
@@ -29,8 +27,10 @@ class LaravelScenarioLoggerMiddleware
 
         $response = $next($request);
 
-        ScenarioLogger::finish();
+        if (lsl_service_is_active('log-response'))
+            ScenarioLogger::logForService('log-response', $response);
 
+        ScenarioLogger::finish();
         return $response;
     }
 }
