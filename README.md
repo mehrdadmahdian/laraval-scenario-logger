@@ -9,3 +9,4 @@ This package helps your laravel app
 - tests
 - usage instruction on readme
 - update basic config file
+- update dependencies
