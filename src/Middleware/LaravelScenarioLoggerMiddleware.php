@@ -21,7 +21,6 @@ class LaravelScenarioLoggerMiddleware
         if (Auth::user())
             ScenarioLogger::setUser(Auth::user());
 
-
         $user = User::create(['name' => 'sdsdadfadfv', 'email' => rand(), 'password' => 'sdsdadfadfv']);
         User::find($user->id)->update(['name' => 'sdsdadfadfv', 'email' => rand(), 'password' => 'sdsdadfadfv']);
         $user->delete();

@@ -106,7 +106,10 @@ class ScenarioLogger
             $serviceReports[$key] = $service->report();
         }
         return [
+            'user_id' => self::getInstance()->user ? self::getInstance()->user->getId() : null,
+            'user_name' => self::getInstance()->user ? self::getInstance()->user->getId(): null,
             'started_at' => self::getInstance()->started_at,
+            'finished_at' => self::getInstance()->finished_at,
             'services' => $serviceReports
         ];
     }
@@ -117,7 +120,7 @@ class ScenarioLogger
     public static function finish(): void
     {
         self::getInstance()->finished_at = Carbon::now()->format('Y-m-d H:i:s');
-        self::getInstance()->storageService->store(array_merge(static::report(), ['finished_at' => self::getInstance()->finished_at]));
+        self::getInstance()->storageService->store(static::report());
     }
 
     /**
