@@ -1,6 +1,6 @@
 {
     "name": "escherchia/laravel-scenario-logger",
-    "description": "This package helps you to track your requests",
+    "description": "This package helps you to track your requests in a single snapshot",
     "type": "libr",
     "license": "MIT",
     "minimum-stability": "dev",
@@ -14,6 +14,10 @@
     },
     "require": {
         "laravel/framework" : "*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "*",
+        "phpunit/phpunit": "*"
     },
     "extra": {
         "laravel": {

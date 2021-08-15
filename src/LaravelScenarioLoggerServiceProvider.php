@@ -12,7 +12,9 @@ class LaravelScenarioLoggerServiceProvider extends ServiceProvider
 {
     public function register()
     {
+
         $this->publishes([ __DIR__ . '/config/config.php' => config_path('laravel-scenario-logger.php')]);
+        $this->mergeConfigFrom(__DIR__.'/config/config.php','laravel-scenario-logger');
         $this->loadRoutesFrom(__DIR__ . '/routes/routes.php');
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
     }
