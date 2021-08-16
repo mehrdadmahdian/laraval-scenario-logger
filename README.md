@@ -75,6 +75,13 @@
       php artisan vendor:publish
 ```
 
+6. run migrations to ensure you have proper tables in database :
+
+```shell script
+      php artisan migrate
+```
+
+
 please select `LaravelScenarioLoggerServiceProvider` in order to publish package providers
 
 
@@ -104,8 +111,20 @@ please select `LaravelScenarioLoggerServiceProvider` in order to publish package
 ...
 ```
 
-`YourStorageDriver` class must implements `Escherchia\LaravelScenarioLogger\StorageDrivers\StorageDriverInterface`
+`YourStorageDriver` class must implement `Escherchia\LaravelScenarioLogger\StorageDrivers\StorageDriverInterface`
 
+#### database driver connection
+if you decide to use built-in database driver to log your scenarios art persistent layer, you can specify
+which database driver should be used.
+ ```php
+...
+    'storage-driver-configuration' => [
+        'database' => [
+            'connection' => 'your-connection-name'
+        ]   
+    ]
+...
+```
  ### logger services
  
  for each scenario each part of logging is handled by a dedicated module. 
@@ -123,7 +142,7 @@ please select `LaravelScenarioLoggerServiceProvider` in order to publish package
 ```
 each service could be have its own configuration. service's specific configuration could be found like this:
 
-```
+```php
 ...
   'service-configuration' => [
           'log-model-changes' => [
@@ -138,6 +157,15 @@ each service could be have its own configuration. service's specific configurati
 ...
 ```
 
+### excluded routes
+you can introduce some route uris as excluded routes to log like this:
+```php
+...
+  'excluded-routes' => [
+     'some/route/uri'
+  ]
+...
+```
 
 <!-- CONTRIBUTING -->
 # Contributing
@@ -174,7 +202,8 @@ Project Link: [laraval-scenario-logger](https://github.com/escherchia/laraval-sc
 # Suggested Features
 
 - log viewer utility
-- feature naming ability
-- disable scnario logger for some routes
+- scenario naming ability
+- disable scenario logger for some routes
+- authenticated user log improvement
 
 

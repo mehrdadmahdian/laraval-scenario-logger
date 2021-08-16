@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CrateScenarioLogsTable extends Migration
@@ -13,7 +15,15 @@ class CrateScenarioLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create(lsl_db_pfx() . 'scenario_logs', function (Blueprint $table) {
+        if (
+            Config::has('laravel-scenario-logger.storage-driver-configuration.database.connection') &&
+            Config::get('laravel-scenario-logger.storage-driver-configuration.database.connection') !== null)
+        {
+            $connectionName = Config::get('laravel-scenario-logger.storage-driver-configuration.database.connection');
+        } else {
+            $connectionName = DB::getDefaultConnection();
+        }
+        Schema::connection($connectionName)->create(lsl_db_pfx() . 'scenario_logs', function (Blueprint $table) {
             $table->id();
             $table->text('raw_log');
             $table->timestamps();

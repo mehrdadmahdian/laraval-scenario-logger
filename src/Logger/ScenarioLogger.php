@@ -8,6 +8,7 @@ use Escherchia\LaravelScenarioLogger\Logger\Services\LoggerServiceFactory;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LoggerServiceInterface;
 use Escherchia\LaravelScenarioLogger\StorageDrivers\StorageService;
 use Illuminate\Support\Facades\Config;
+use phpDocumentor\Reflection\Types\True_;
 
 class ScenarioLogger
 {
@@ -87,12 +88,40 @@ class ScenarioLogger
     }
 
     /**
+     * @return bool
+     */
+    public static function isStarted(): bool
+    {
+        return isset(self::$instance);
+    }
+
+    /**
      *
      */
     public static function start(): void
     {
-        static::getInstance();
-        self::$instance->started_at = Carbon::now()->format('Y-m-d H:i:s.u');
+        if (static::couldBeStarted()) {
+            static::getInstance();
+            self::$instance->started_at = Carbon::now()->format('Y-m-d H:i:s.u');
+        }
+    }
+
+    private static function couldBeStarted(): bool
+    {
+        $excludedRoutes = array();
+
+        if (Config::has('laravel-scenario-logger.excluded-routes')) {
+            if (is_array(Config::get('laravel-scenario-logger.excluded-routes'))) {
+                $excludedRoutes  = Config::get('laravel-scenario-logger.excluded-routes');
+            }
+        }
+        if (!app()->runningInConsole() && request()) {
+            if (in_array(request()->getRequestUri(), $excludedRoutes, true)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
