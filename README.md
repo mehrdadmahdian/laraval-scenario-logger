@@ -203,7 +203,6 @@ Project Link: [laraval-scenario-logger](https://github.com/escherchia/laraval-sc
 
 - log viewer utility
 - scenario naming ability
-- disable scenario logger for some routes
 - authenticated user log improvement
 
 

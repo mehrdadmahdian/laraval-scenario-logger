@@ -43,6 +43,11 @@ class ScenarioLogger
     private $user;
 
     /**
+     * @var string
+     */
+    private $name;
+
+    /**
      * ScenarioLogger constructor.
      */
     protected function __construct()
@@ -139,6 +144,7 @@ class ScenarioLogger
         }
 
         return [
+            'scenario-name' => self::getInstance()->name,
             'user_id' => self::getInstance()->user ? self::getInstance()->user->getId() : null,
             'user_name' => self::getInstance()->user ? self::getInstance()->user->getId(): null,
             'started_at' => self::getInstance()->started_at,
@@ -174,6 +180,14 @@ class ScenarioLogger
     public static function setUser(ScenarioLoggerUserProviderInterface $user)
     {
         self::getInstance()->user = $user;
+    }
+
+    /**
+     * @param string $name
+     */
+    public static function setScenarioName(string $name): void
+    {
+        self::getInstance()->name = $name;
     }
 
     /**
