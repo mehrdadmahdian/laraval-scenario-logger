@@ -202,7 +202,5 @@ Project Link: [laraval-scenario-logger](https://github.com/escherchia/laraval-sc
 # Suggested Features
 
 - log viewer utility
-- scenario naming ability
-- authenticated user log improvement
 
 
