@@ -202,5 +202,6 @@ Project Link: [laraval-scenario-logger](https://github.com/escherchia/laraval-sc
 # Suggested Features
 
 - log viewer utility
+- infrastructure for running in console
 
 

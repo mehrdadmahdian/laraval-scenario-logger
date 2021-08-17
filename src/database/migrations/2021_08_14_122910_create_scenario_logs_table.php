@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CrateScenarioLogsTable extends Migration
+class CreateScenarioLogsTable extends Migration
 {
     /**
      * Run the migrations.
      *
-     * @return void
+     * @return voidd
      */
     public function up()
     {
@@ -25,7 +25,13 @@ class CrateScenarioLogsTable extends Migration
         }
         Schema::connection($connectionName)->create(lsl_db_pfx() . 'scenario_logs', function (Blueprint $table) {
             $table->id();
-            $table->text('raw_log');
+            $table->text('raw_log')->nullable();
+            $table->text('generic_info')->nullable();
+            $table->text('log_model_changes')->nullable();
+            $table->text('log_request')->nullable();
+            $table->text('log_response')->nullable();
+            $table->text('log_exception')->nullable();
+            $table->text('log_manual_trace')->nullable();
             $table->timestamps();
         });
     }

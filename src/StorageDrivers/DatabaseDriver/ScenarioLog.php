@@ -14,7 +14,15 @@ class ScenarioLog extends Model
     /**
      * @var string[]
      */
-    public $casts = ['raw_log' => 'array'];
+    public $casts = [
+        'raw_log' => 'array',
+        'generic_info' => 'array',
+        'log_model_changes' => 'array',
+        'log_request' => 'array',
+        'log_response' => 'array',
+        'log_exception' => 'array',
+        'log_manual_trace' => 'array'
+    ];
 
     /**
      * Get the current connection name for the model.
