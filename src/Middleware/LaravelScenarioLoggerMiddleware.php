@@ -21,6 +21,7 @@ class LaravelScenarioLoggerMiddleware
             $response = $next($request);
             lsl_service_is_active('log-response') ? ScenarioLogger::logForService('log-response', $response): null;
             ScenarioLogger::finish();
+
             return $response;
         } else {
             return $next($request);

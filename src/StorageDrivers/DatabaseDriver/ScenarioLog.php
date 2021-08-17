@@ -21,7 +21,7 @@ class ScenarioLog extends Model
         'log_request' => 'array',
         'log_response' => 'array',
         'log_exception' => 'array',
-        'log_manual_trace' => 'array'
+        'log_manual_trace' => 'array',
     ];
 
     /**
@@ -33,8 +33,7 @@ class ScenarioLog extends Model
     {
         if (
             Config::has('laravel-scenario-logger.storage-driver-configuration.database.connection') &&
-            Config::get('laravel-scenario-logger.storage-driver-configuration.database.connection') !== null)
-        {
+            Config::get('laravel-scenario-logger.storage-driver-configuration.database.connection') !== null) {
             return Config::get('laravel-scenario-logger.storage-driver-configuration.database.connection');
         }
 

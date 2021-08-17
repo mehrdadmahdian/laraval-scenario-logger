@@ -29,7 +29,6 @@ class LogException implements LoggerServiceInterface
         } else {
             return [];
         }
-
     }
 
     /**

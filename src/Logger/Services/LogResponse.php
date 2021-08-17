@@ -30,7 +30,7 @@ class LogResponse implements LoggerServiceInterface
                 'status_code' => $this->response ? $this->response->status() : null,
                 'status_text' => $this->response ? $this->response->statusText() : null,
                 'content' => $this->response ? $this->response->getContent() : null,
-                'content_type' => $this->response ? get_class($this->response->getOriginalContent()) : null,
+//                'content_type' => $this->response ? get_class($this->response->getOriginalContent()) : null,
             ];
             if (
                 Config::has('laravel-scenario-logger.service-configuration.log-response.disable-store-content') &&

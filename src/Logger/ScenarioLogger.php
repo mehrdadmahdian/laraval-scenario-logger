@@ -8,7 +8,6 @@ use Escherchia\LaravelScenarioLogger\Logger\Services\LoggerServiceFactory;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LoggerServiceInterface;
 use Escherchia\LaravelScenarioLogger\StorageDrivers\StorageService;
 use Illuminate\Support\Facades\Config;
-use phpDocumentor\Reflection\Types\True_;
 
 class ScenarioLogger
 {

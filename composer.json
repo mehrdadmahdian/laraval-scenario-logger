@@ -6,11 +6,16 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Escherchia\\LaravelScenarioLogger\\": "/src"
+            "Escherchia\\LaravelScenarioLogger\\": "src"
         },
         "files": [
             "src/helpers/helpers.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\" : "tests"
+        }
     },
     "require": {
         "laravel/framework" : "*"
@@ -22,7 +27,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Escherchia\\LaravelScenarioLogger\\LSLServiceProvider"
+                "Escherchia\\LaravelScenarioLogger\\LaravelScenarioLoggerServiceProvider"
             ]
         }
     },
