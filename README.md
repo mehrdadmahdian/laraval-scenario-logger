@@ -196,7 +196,6 @@ Project Link: [laraval-scenario-logger](https://github.com/escherchia/laraval-sc
 - descriptive comment for config items
 - write proper tests
 - update dependencies in composer.json
-- structured columns for database driver
 - support logger in console mode
 
 # Suggested Features
