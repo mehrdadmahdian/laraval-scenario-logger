@@ -18,7 +18,7 @@ return [
             ],
         ],
         'log-response' => [
-            'disable-store-content' => true,
+            'disable-store-content' => false,
         ],
     ],
 ];

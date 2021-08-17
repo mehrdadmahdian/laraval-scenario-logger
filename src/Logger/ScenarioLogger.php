@@ -193,7 +193,7 @@ class ScenarioLogger
      * @param string $message
      * @param array $data
      */
-    public static function pushToTrace(string $message, array $data = array()): void
+    public static function trace(string $message, array $data = array()): void
     {
         $logManualTrace = self::getInstance()->serviceContainer->get('log-manual-trace');
         if ($logManualTrace) {

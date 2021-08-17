@@ -10,9 +10,9 @@ class MainTest extends BaseTestCase
 //    use RefreshDatabase;
 
     /** @test */
-    public function basic_test()
+    public function it_just_tests_making_request()
     {
-        $this->get('/');
+        $this->get('/test');
         static::assertTrue(true);
     }
 }

@@ -57,4 +57,11 @@ class BaseTestCase extends TestCase
             'prefix' => '',
         ]);
     }
+
+    public function defineRoutes($router)
+    {
+        $router->get('/test', function(){
+            return 'here';
+        });
+    }
 }
