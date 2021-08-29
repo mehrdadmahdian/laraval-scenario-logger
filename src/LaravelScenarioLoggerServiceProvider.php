@@ -25,9 +25,6 @@ class LaravelScenarioLoggerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (lsl_is_active()) {
-            $this->app->make(Kernel::class)->pushMiddleware(LaravelScenarioLoggerMiddleware::class);
-            ScenarioLogger::start();
-        }
+        $this->app->make(Kernel::class)->pushMiddleware(LaravelScenarioLoggerMiddleware::class);
     }
 }
