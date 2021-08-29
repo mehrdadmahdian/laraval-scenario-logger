@@ -8,8 +8,9 @@ class DatabaseDriver implements StorageDriverInterface
 {
     /**
      * @param array $data
+     * @return bool
      */
-    public function store(array $data): void
+    public function store(array $data): bool
     {
         $generic_info = $data;
         unset($generic_info['services']);
@@ -24,5 +25,7 @@ class DatabaseDriver implements StorageDriverInterface
             'log_manual_trace' => isset($data['services']['log-manual-trace']) ? $data['services']['log-manual-trace'] : null,
         ];
         ScenarioLog::create($structured);
+
+        return true;
     }
 }
