@@ -15,11 +15,12 @@ class LaravelScenarioLoggerMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (ScenarioLogger::isStarted()) {
-            lsl_service_is_active('log-request') ? ScenarioLogger::logForService('log-request', $request): null;
+        if (lsl_is_active()) {
+            ScenarioLogger::start();
+            lsl_service_is_active('log-request') ? ScenarioLogger::logForService('log-request', $request) : null;
             Auth::check() ? ScenarioLogger::setUser(Auth::user()) : null;
             $response = $next($request);
-            lsl_service_is_active('log-response') ? ScenarioLogger::logForService('log-response', $response): null;
+            lsl_service_is_active('log-response') ? ScenarioLogger::logForService('log-response', $response) : null;
             ScenarioLogger::finish();
 
             return $response;
