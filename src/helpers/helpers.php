@@ -8,17 +8,28 @@ use Illuminate\Support\Facades\Config;
  */
 function lsl_db_pfx()
 {
-    return Config::has('laravel-scenario-logger.db-pfx') ? Config::get('laravel-scenario-logger.db-pfx') : '';
+    return config('laravel-scenario-logger.db-pfx', '');
 }
 
+/**
+ * @return \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed|null
+ * @throws Throwable
+ */
 function lsl_is_active()
 {
-    return Config::has('laravel-scenario-logger.is_active') ? Config::get('laravel-scenario-logger.is_active') : '';
+    $value = config('laravel-scenario-logger.is_active');
+
+    throw_if( is_null($value) or !is_bool($value), new \Escherchia\LaravelScenarioLogger\Exceptions\BadConfigException() );
+    return $value;
 }
 
+/**
+ * @param $serviceKey
+ * @return bool
+ */
 function lsl_service_is_active($serviceKey): bool
 {
-    $activeServices = Config::get('laravel-scenario-logger.active-services');
+    $activeServices = config('laravel-scenario-logger.active-services');
     if (in_array($serviceKey, $activeServices)) {
         return true;
     }
