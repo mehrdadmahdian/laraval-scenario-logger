@@ -34,9 +34,10 @@ class StorageService
 
     /**
      * @param array $data
+     * @return bool
      */
-    public function store(array $data)
+    public function store(array $data): bool
     {
-        $this->driver->store($data);
+        return $this->driver->store($data);
     }
 }

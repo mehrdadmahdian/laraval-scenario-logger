@@ -42,6 +42,11 @@ class ScenarioLogger
     private $user;
 
     /**
+     * @var string
+     */
+    private $name;
+
+    /**
      * ScenarioLogger constructor.
      */
     protected function __construct()
@@ -87,12 +92,40 @@ class ScenarioLogger
     }
 
     /**
+     * @return bool
+     */
+    public static function isStarted(): bool
+    {
+        return isset(self::$instance);
+    }
+
+    /**
      *
      */
     public static function start(): void
     {
-        static::getInstance();
-        self::$instance->started_at = Carbon::now()->format('Y-m-d H:i:s.u');
+        if (static::couldBeStarted()) {
+            static::getInstance();
+            self::$instance->started_at = Carbon::now()->format('Y-m-d H:i:s.u');
+        }
+    }
+
+    private static function couldBeStarted(): bool
+    {
+        $excludedRoutes = array();
+
+        if (Config::has('laravel-scenario-logger.excluded-routes')) {
+            if (is_array(Config::get('laravel-scenario-logger.excluded-routes'))) {
+                $excludedRoutes  = Config::get('laravel-scenario-logger.excluded-routes');
+            }
+        }
+        if (!app()->runningInConsole() && request()) {
+            if (in_array(request()->getRequestUri(), $excludedRoutes, true)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -110,6 +143,7 @@ class ScenarioLogger
         }
 
         return [
+            'scenario-name' => self::getInstance()->name,
             'user_id' => self::getInstance()->user ? self::getInstance()->user->getId() : null,
             'user_name' => self::getInstance()->user ? self::getInstance()->user->getId(): null,
             'started_at' => self::getInstance()->started_at,
@@ -148,10 +182,18 @@ class ScenarioLogger
     }
 
     /**
+     * @param string $name
+     */
+    public static function setScenarioName(string $name): void
+    {
+        self::getInstance()->name = $name;
+    }
+
+    /**
      * @param string $message
      * @param array $data
      */
-    public static function pushToTrace(string $message, array $data = array()): void
+    public static function trace(string $message, array $data = array()): void
     {
         $logManualTrace = self::getInstance()->serviceContainer->get('log-manual-trace');
         if ($logManualTrace) {

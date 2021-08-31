@@ -21,10 +21,14 @@ class LogException implements LoggerServiceInterface
      */
     public function report(): array
     {
-        return [
-            'message' => $this->throwable->getMessage(),
-            'trace' => $this->throwable->getTraceAsString(),
-        ];
+        if ($this->throwable) {
+            return [
+                'message' => $this->throwable->getMessage(),
+                'trace' => $this->throwable->getTraceAsString(),
+            ];
+        } else {
+            return [];
+        }
     }
 
     /**
