@@ -1,13 +1,13 @@
 <?php
 
 return [
-    'db-pfx' => '',
+
     'is_active' => true,
     'default-storage-driver' => 'database',
 
     'drivers' => [
         'database' => [
-            'pfx' => '',
+            'prefix' => '',
         ],
     ],
 
