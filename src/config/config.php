@@ -7,7 +7,7 @@ return [
 
     'drivers' => [
         'database' => [
-            'prefix' => '',
+            'connection' => 'testing',
         ],
     ],
 
