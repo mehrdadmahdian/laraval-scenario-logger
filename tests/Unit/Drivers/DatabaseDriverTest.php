@@ -22,9 +22,9 @@ class DatabaseDriverTest extends \Tests\BaseTestCase
         app()->make(StorageService::class)->store(['a' => 1, 'b' => 2, 'c' => 3]);
 
         $scenarioLog = ScenarioLog::first();
-        $this->assertArrayHasKey('a', $scenarioLog->generic_info);
-        $this->assertArrayHasKey('b', $scenarioLog->generic_info);
-        $this->assertArrayHasKey('c', $scenarioLog->generic_info);
+        $this->assertArrayHasKey('a', (array) $scenarioLog->raw_log);
+        $this->assertArrayHasKey('b', (array) $scenarioLog->raw_log);
+        $this->assertArrayHasKey('c', (array) $scenarioLog->raw_log);
     }
 
     /**
@@ -45,10 +45,10 @@ class DatabaseDriverTest extends \Tests\BaseTestCase
         ]);
 
         $scenarioLog = ScenarioLog::first();
-        $this->assertArrayHasKey('log_model_changes', $scenarioLog->generic_info);
-        $this->assertArrayHasKey('log_request', $scenarioLog->generic_info);
-        $this->assertArrayHasKey('log_response', $scenarioLog->generic_info);
-        $this->assertArrayHasKey('log_exception', $scenarioLog->generic_info);
-        $this->assertArrayHasKey('log_manual_trace', $scenarioLog->generic_info);
+        $this->assertArrayHasKey('log_model_changes', (array) $scenarioLog->raw_log['services']);
+        $this->assertArrayHasKey('log_request', $scenarioLog->raw_log['services']);
+        $this->assertArrayHasKey('log_response', $scenarioLog->raw_log['services']);
+        $this->assertArrayHasKey('log_exception', $scenarioLog->raw_log['services']);
+        $this->assertArrayHasKey('log_manual_trace', $scenarioLog->raw_log['services']);
     }
 }

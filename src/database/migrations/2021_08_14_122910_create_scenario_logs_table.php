@@ -25,12 +25,6 @@ class CreateScenarioLogsTable extends Migration
         Schema::connection($connectionName)->create(lsl_db_pfx() . 'scenario_logs', function (Blueprint $table) {
             $table->id();
             $table->text('raw_log')->nullable();
-            $table->text('generic_info')->nullable();
-            $table->text('log_model_changes')->nullable();
-            $table->text('log_request')->nullable();
-            $table->text('log_response')->nullable();
-            $table->text('log_exception')->nullable();
-            $table->text('log_manual_trace')->nullable();
             $table->timestamps();
         });
     }
