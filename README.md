@@ -107,7 +107,7 @@ please select `LaravelScenarioLoggerServiceProvider` in order to publish package
  
  ```php
 ...
-    'default-storage-driver' => Path\TO\YourStorageDriver,
+    'default-driver' => Path\TO\YourStorageDriver,
 ...
 ```
 

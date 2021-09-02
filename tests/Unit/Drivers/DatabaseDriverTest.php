@@ -18,7 +18,7 @@ class DatabaseDriverTest extends \Tests\BaseTestCase
      */
     public function it_stores_generic_data()
     {
-        $this->app['config']->set('laravel-scenario-logger.default-storage-driver', 'database');
+        $this->app['config']->set('laravel-scenario-logger.default-driver', 'database');
 
         app()->make(StorageService::class)->store(['a' => 1, 'b' => 2, 'c' => 3]);
 
@@ -33,7 +33,7 @@ class DatabaseDriverTest extends \Tests\BaseTestCase
      */
     public function it_stores_modules_data()
     {
-        $this->app['config']->set('laravel-scenario-logger.default-storage-driver', 'database');
+        $this->app['config']->set('laravel-scenario-logger.default-driver', 'database');
 
         app()->make(StorageService::class)->store([
             'services' => [
@@ -66,7 +66,7 @@ class DatabaseDriverTest extends \Tests\BaseTestCase
             'database' => env('DB_DATABASE', 'laravel-scenario-logger-testing'),
             'prefix' => '',
         ]);
-        $this->app['config']->set('laravel-scenario-logger.default-storage-driver', 'database');
+        $this->app['config']->set('laravel-scenario-logger.default-driver', 'database');
         $this->app['config']->set('laravel-scenario-logger.drivers.database.connection', 'new-connection');
 
         app()->make(StorageService::class)->store([

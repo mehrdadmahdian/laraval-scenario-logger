@@ -3,7 +3,7 @@
 return [
 
     'is_active' => true,
-    'default-storage-driver' => 'database',
+    'default-driver' => 'database',
 
     'drivers' => [
         'database' => [
