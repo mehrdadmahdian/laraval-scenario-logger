@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\Config;
 
 class ScenarioLog extends Model
 {
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->setConnection(config('laravel-scenario-logger.drivers.database.connection', null));
+    }
+
     /**
      * @var string[]
      */

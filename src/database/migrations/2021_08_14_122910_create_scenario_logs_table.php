@@ -15,11 +15,8 @@ class CreateScenarioLogsTable extends Migration
      */
     public function up()
     {
-        if (
-            Config::has('laravel-scenario-logger.storage-driver-configuration.database.connection') &&
-            Config::get('laravel-scenario-logger.storage-driver-configuration.database.connection') !== null) {
-            $connectionName = Config::get('laravel-scenario-logger.storage-driver-configuration.database.connection');
-        } else {
+        if ( $connectionName = Config::get('laravel-scenario-logger.driver.database.connection', null) );
+        else {
             $connectionName = DB::getDefaultConnection();
         }
         Schema::connection($connectionName)->create('scenario_logs', function (Blueprint $table) {
