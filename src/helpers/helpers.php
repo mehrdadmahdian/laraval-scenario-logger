@@ -3,15 +3,6 @@
 use Illuminate\Support\Facades\Config;
 
 /**
- * get database tables prefix
- * @return mixed|string
- */
-function lsl_db_pfx()
-{
-    return config('laravel-scenario-logger.db-pfx', '');
-}
-
-/**
  * @return \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed|null
  * @throws Throwable
  */
