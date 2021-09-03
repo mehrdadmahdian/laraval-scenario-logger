@@ -52,28 +52,4 @@ class DatabaseDriverTest extends \Tests\BaseTestCase
         $this->assertArrayHasKey('log_exception', $scenarioLog->raw_log['services']);
         $this->assertArrayHasKey('log_manual_trace', $scenarioLog->raw_log['services']);
     }
-
-    /**
-     * @test
-     */
-    public function it_uses_laravel_connection_configs()
-    {
-        $this->app['config']->set('database.connections.new-connection', [
-            'driver' => 'mysql',
-            'host' => env('ALTERNATE_DB_HOST'),
-            'username' => env('ALTERNATE_DB_USERNAME'),
-            'password' => env('ALTERNATE_DB_PASSWORD'),
-            'database' => env('ALTERNATE_DB_DATABASE'),
-            'prefix' => '',
-        ]);
-        $this->app['config']->set('laravel-scenario-logger.default-driver', 'database');
-        $this->app['config']->set('laravel-scenario-logger.drivers.database.connection', 'new-connection');
-
-        app()->make(StorageService::class)->store([
-            'services' => [
-            ]
-        ]);
-
-        $this->assertEquals(1, ScenarioLog::count());
-    }
 }

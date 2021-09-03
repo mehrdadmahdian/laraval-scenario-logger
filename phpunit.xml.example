@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./app</directory>
+        </whitelist>
+    </filter>
+    <php>
+        <env name="DB_HOST" value="" />
+        <env name="DB_USERNAME" value="" />
+        <env name="DB_PASSWORD" value="" />
+        <env name="DB_DATABASE" value="" />
+
+        <env name="ALTERNATE_DB_HOST" value="" />
+        <env name="ALTERNATE_DB_USERNAME" value="" />
+        <env name="ALTERNATE_DB_PASSWORD" value="" />
+        <env name="ALTERNATE_DB_DATABASE" value="" />
+
+    </php>
+    <logging>
+        <log type="testdox-text" target="php://stdout" showUncoveredFiles="false" />
+    </logging>
+</phpunit>
