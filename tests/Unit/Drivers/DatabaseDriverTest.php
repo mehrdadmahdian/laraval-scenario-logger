@@ -7,6 +7,7 @@ namespace Tests\Unit\Drivers;
 use Escherchia\LaravelScenarioLogger\StorageDrivers\DatabaseDriver\ScenarioLog;
 use Escherchia\LaravelScenarioLogger\StorageDrivers\StorageService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseDriverTest extends \Tests\BaseTestCase
 {
@@ -17,14 +18,14 @@ class DatabaseDriverTest extends \Tests\BaseTestCase
      */
     public function it_stores_generic_data()
     {
-        $this->app['config']->set('laravel-scenario-logger.default-storage-driver', 'database');
+        $this->app['config']->set('laravel-scenario-logger.default-driver', 'database');
 
         app()->make(StorageService::class)->store(['a' => 1, 'b' => 2, 'c' => 3]);
 
         $scenarioLog = ScenarioLog::first();
-        $this->assertArrayHasKey('a', $scenarioLog->generic_info);
-        $this->assertArrayHasKey('b', $scenarioLog->generic_info);
-        $this->assertArrayHasKey('c', $scenarioLog->generic_info);
+        $this->assertArrayHasKey('a', (array) $scenarioLog->raw_log);
+        $this->assertArrayHasKey('b', (array) $scenarioLog->raw_log);
+        $this->assertArrayHasKey('c', (array) $scenarioLog->raw_log);
     }
 
     /**
@@ -32,7 +33,7 @@ class DatabaseDriverTest extends \Tests\BaseTestCase
      */
     public function it_stores_modules_data()
     {
-        $this->app['config']->set('laravel-scenario-logger.default-storage-driver', 'database');
+        $this->app['config']->set('laravel-scenario-logger.default-driver', 'database');
 
         app()->make(StorageService::class)->store([
             'services' => [
@@ -45,10 +46,34 @@ class DatabaseDriverTest extends \Tests\BaseTestCase
         ]);
 
         $scenarioLog = ScenarioLog::first();
-        $this->assertArrayHasKey('log_model_changes', $scenarioLog->generic_info);
-        $this->assertArrayHasKey('log_request', $scenarioLog->generic_info);
-        $this->assertArrayHasKey('log_response', $scenarioLog->generic_info);
-        $this->assertArrayHasKey('log_exception', $scenarioLog->generic_info);
-        $this->assertArrayHasKey('log_manual_trace', $scenarioLog->generic_info);
+        $this->assertArrayHasKey('log_model_changes', (array) $scenarioLog->raw_log['services']);
+        $this->assertArrayHasKey('log_request', $scenarioLog->raw_log['services']);
+        $this->assertArrayHasKey('log_response', $scenarioLog->raw_log['services']);
+        $this->assertArrayHasKey('log_exception', $scenarioLog->raw_log['services']);
+        $this->assertArrayHasKey('log_manual_trace', $scenarioLog->raw_log['services']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_uses_laravel_connection_configs()
+    {
+        $this->app['config']->set('database.connections.new-connection', [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'username' => 'root',
+            'password' => '',
+            'database' => env('DB_DATABASE', 'laravel-scenario-logger-testing'),
+            'prefix' => '',
+        ]);
+        $this->app['config']->set('laravel-scenario-logger.default-driver', 'database');
+        $this->app['config']->set('laravel-scenario-logger.drivers.database.connection', 'new-connection');
+
+        app()->make(StorageService::class)->store([
+            'services' => [
+            ]
+        ]);
+
+        $this->assertEquals(1, ScenarioLog::count());
     }
 }
