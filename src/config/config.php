@@ -1,9 +1,16 @@
 <?php
 
 return [
-    'db-pfx' => '',
+
     'is_active' => true,
-    'default-storage-driver' => 'database',
+    'default-driver' => 'database',
+
+    'drivers' => [
+        'database' => [
+            'connection' => 'testing',
+        ],
+    ],
+
     'active-services' => [
         'log-model-changes',
         'log-request',

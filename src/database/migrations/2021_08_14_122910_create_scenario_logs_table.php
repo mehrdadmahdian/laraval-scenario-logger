@@ -15,22 +15,13 @@ class CreateScenarioLogsTable extends Migration
      */
     public function up()
     {
-        if (
-            Config::has('laravel-scenario-logger.storage-driver-configuration.database.connection') &&
-            Config::get('laravel-scenario-logger.storage-driver-configuration.database.connection') !== null) {
-            $connectionName = Config::get('laravel-scenario-logger.storage-driver-configuration.database.connection');
-        } else {
+        if ( $connectionName = Config::get('laravel-scenario-logger.driver.database.connection', null) );
+        else {
             $connectionName = DB::getDefaultConnection();
         }
-        Schema::connection($connectionName)->create(lsl_db_pfx() . 'scenario_logs', function (Blueprint $table) {
+        Schema::connection($connectionName)->create('scenario_logs', function (Blueprint $table) {
             $table->id();
             $table->text('raw_log')->nullable();
-            $table->text('generic_info')->nullable();
-            $table->text('log_model_changes')->nullable();
-            $table->text('log_request')->nullable();
-            $table->text('log_response')->nullable();
-            $table->text('log_exception')->nullable();
-            $table->text('log_manual_trace')->nullable();
             $table->timestamps();
         });
     }
@@ -42,6 +33,6 @@ class CreateScenarioLogsTable extends Migration
      */
     public function down()
     {
-        Schema::drop(lsl_db_pfx() . 'scenario_logs');
+        Schema::drop('scenario_logs');
     }
 }

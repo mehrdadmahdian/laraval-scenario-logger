@@ -45,16 +45,6 @@ class HelperTest extends \Tests\BaseTestCase
     /**
      * @test
      */
-    public function it_returns_db_prefix_correctly()
-    {
-        $this->app['config']->set('laravel-scenario-logger.db-pfx', 'aTestCase');
-
-        $this->assertEquals(lsl_db_pfx(), 'aTestCase');
-    }
-
-    /**
-     * @test
-     */
     public function it_returns_true_when_service_active()
     {
         $this->app['config']->set('laravel-scenario-logger.active-services', [
