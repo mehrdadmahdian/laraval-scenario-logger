@@ -23,7 +23,16 @@
         </whitelist>
     </filter>
     <php>
-        <env name="DB_CONNECTION" value="testing"/>
+        <env name="DB_HOST" value="127.0.0.1" />
+        <env name="DB_USERNAME" value="root" />
+        <env name="DB_PASSWORD" value="mhm1458187@" />
+        <env name="DB_DATABASE" value="laravel_scenario_logger_testing" />
+
+        <env name="ALTERNATE_DB_HOST" value="127.0.0.1" />
+        <env name="ALTERNATE_DB_USERNAME" value="root" />
+        <env name="ALTERNATE_DB_PASSWORD" value="mhm1458187@" />
+        <env name="ALTERNATE_DB_DATABASE" value="alternate_laravel_scenario_logger_testing" />
+
     </php>
     <logging>
         <log type="testdox-text" target="php://stdout" showUncoveredFiles="false" />

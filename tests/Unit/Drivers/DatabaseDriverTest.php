@@ -60,10 +60,10 @@ class DatabaseDriverTest extends \Tests\BaseTestCase
     {
         $this->app['config']->set('database.connections.new-connection', [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'username' => 'root',
-            'password' => '',
-            'database' => env('DB_DATABASE', 'laravel-scenario-logger-testing'),
+            'host' => env('ALTERNATE_DB_HOST'),
+            'username' => env('ALTERNATE_DB_USERNAME'),
+            'password' => env('ALTERNATE_DB_PASSWORD'),
+            'database' => env('ALTERNATE_DB_DATABASE'),
             'prefix' => '',
         ]);
         $this->app['config']->set('laravel-scenario-logger.default-driver', 'database');

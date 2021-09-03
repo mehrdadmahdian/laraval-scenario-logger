@@ -11,7 +11,7 @@ class CreateScenarioLogsTable extends Migration
     /**
      * Run the migrations.
      *
-     * @return voidd
+     * @return void
      */
     public function up()
     {

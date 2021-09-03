@@ -50,10 +50,10 @@ class BaseTestCase extends TestCase
 
         $app['config']->set('database.connections.testing', [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'username' => 'root',
-            'password' => '',
-            'database' => env('DB_DATABASE', 'laravel-scenario-logger-testing'),
+            'host' => env('DB_HOST'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+            'database' => env('DB_DATABASE'),
             'prefix' => '',
         ]);
     }

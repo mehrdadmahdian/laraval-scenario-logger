@@ -19,7 +19,8 @@ public_html/storage
 public_html/hot
 
 storage/*.key
-.env
+.env.testing
+phpunit.xml
 Homestead.yaml
 Homestead.json
 /.vagrant
