@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -26,4 +27,14 @@ function lsl_service_is_active($serviceKey): bool
     }
 
     return false;
+}
+
+function lsl_active_services()
+{
+    $services = config('laravel-scenario-logger.service-configuration', []);
+    $activeServices = Arr::where($services, function($item) {
+        return Arr::get($item, 'active', true);
+    });
+    
+    return $activeServices;
 }
