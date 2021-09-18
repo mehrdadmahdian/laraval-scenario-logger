@@ -39,7 +39,7 @@ class DatabaseDriverWithAnotherConnectionTest extends \Tests\BaseTestCase
     public function it_uses_laravel_connection_configs()
     {
 
-        $this->app['config']->set('laravel-scenario-logger.default-driver', 'database');
+        $this->app['config']->set('laravel-scenario-logger.default', 'database');
         $this->app['config']->set('laravel-scenario-logger.drivers.database.connection', 'testing');
 
         app()->make(StorageService::class)->store([
