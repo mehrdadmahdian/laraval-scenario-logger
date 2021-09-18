@@ -7,6 +7,7 @@ use Escherchia\LaravelScenarioLogger\Contracts\ScenarioLoggerUserProviderInterfa
 use Escherchia\LaravelScenarioLogger\Logger\Services\LoggerServiceFactory;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LoggerServiceInterface;
 use Escherchia\LaravelScenarioLogger\StorageDrivers\StorageService;
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
@@ -65,8 +66,13 @@ class ScenarioLogger
 
         foreach (lsl_active_services() as $serviceName => $service) {
             $activeServiceClass = Arr::get($service, 'class');
-            if ($activeServiceClass instanceof LoggerServiceInterface) {
-                $this->serviceContainer->add($serviceName, $activeServiceClass);
+            if (
+                class_exists($activeServiceClass) and
+                class_implements($activeServiceClass, LoggerServiceInterface::class)
+            ) {
+                $this->serviceContainer->add($serviceName, new $activeServiceClass);
+            } else {
+                throw new Exception($activeServiceClass .' class is not valid');
             }
         }
 

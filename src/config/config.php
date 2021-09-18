@@ -1,5 +1,10 @@
 <?php
 
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogException;
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogManualTrace;
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogRequest;
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogResponse;
+
 return [
 
     'is_active' => true,
