@@ -17,7 +17,7 @@ class LaravelLogDriverTest extends \Tests\BaseTestCase
     public function it_stores_generic_data()
     {
         unlink($this->logFileAddress);
-        $this->app['config']->set('laravel-scenario-logger.default-driver', 'laravel-log');
+        $this->app['config']->set('laravel-scenario-logger.default', 'laravel-log');
 
         $data = ['a' => 1, 'b' => 2, 'c' => 3];
         app()->make(StorageService::class)->store($data);
@@ -32,7 +32,7 @@ class LaravelLogDriverTest extends \Tests\BaseTestCase
     public function it_stores_modules_data()
     {
         unlink($this->logFileAddress);
-        $this->app['config']->set('laravel-scenario-logger.default-driver', 'laravel-log');
+        $this->app['config']->set('laravel-scenario-logger.default', 'laravel-log');
 
         $data = [
             'services' => [
