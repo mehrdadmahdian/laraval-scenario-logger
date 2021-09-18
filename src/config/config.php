@@ -38,6 +38,9 @@ return [
         'log-model-changes' => [
             'active' => true,
             'class' => LogModelChanges::class,
+            'models' => [
+                // model goes here
+            ],
         ],
     ],
 ];
