@@ -3,6 +3,7 @@
 namespace Escherchia\LaravelScenarioLogger\StorageDrivers;
 
 use Escherchia\LaravelScenarioLogger\StorageDrivers\DatabaseDriver\DatabaseDriver;
+use Escherchia\LaravelScenarioLogger\StorageDrivers\LaravelLogDriver\LaravelLogDriver;
 
 class DriverFactory
 {
@@ -33,6 +34,7 @@ class DriverFactory
     {
         return [
             'database'  => DatabaseDriver::class,
+            'laravel-log' => LaravelLogDriver::class,
         ];
     }
 }
