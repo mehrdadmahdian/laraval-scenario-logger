@@ -72,5 +72,8 @@ class BaseTestCase extends TestCase
         $router->get('/test', function(){
             return 'here';
         });
+        $router->get('/a-route-with-exception', function(){
+            return $undefined_variable;
+        });
     }
 }
