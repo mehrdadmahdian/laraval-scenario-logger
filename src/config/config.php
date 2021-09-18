@@ -2,6 +2,7 @@
 
 use Escherchia\LaravelScenarioLogger\Logger\Services\LogException;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LogManualTrace;
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogModelChanges;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LogRequest;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LogResponse;
 
@@ -33,6 +34,10 @@ return [
         'log-manual-trace' => [
             'active' => true,
             'class' => LogManualTrace::class,
+        ],
+        'log-model-changes' => [
+            'active' => true,
+            'class' => LogModelChanges::class,
         ],
     ],
 ];
