@@ -23,7 +23,16 @@
         </whitelist>
     </filter>
     <php>
-        <env name="DB_CONNECTION" value="testing"/>
+        <env name="DB_HOST" value="" />
+        <env name="DB_USERNAME" value="" />
+        <env name="DB_PASSWORD" value="" />
+        <env name="DB_DATABASE" value="" />
+
+        <env name="ALTERNATE_DB_HOST" value="" />
+        <env name="ALTERNATE_DB_USERNAME" value="" />
+        <env name="ALTERNATE_DB_PASSWORD" value="" />
+        <env name="ALTERNATE_DB_DATABASE" value="" />
+
     </php>
     <logging>
         <log type="testdox-text" target="php://stdout" showUncoveredFiles="false" />

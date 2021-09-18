@@ -6,7 +6,7 @@ use Escherchia\LaravelScenarioLogger\LaravelScenarioLoggerServiceProvider;
 use Orchestra\Testbench\TestCase;
 
 class BaseTestCase extends TestCase
-{
+{    
     protected function getPackageProviders($app)
     {
         return [
@@ -46,14 +46,23 @@ class BaseTestCase extends TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('database.default', 'testing');
-
-        $app['config']->set('database.connections.testing', [
+        $app['config']->set('database.default', 'normal');
+        
+        $app['config']->set('database.connections.normal', [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'username' => 'root',
-            'password' => '',
-            'database' => env('DB_DATABASE', 'laravel-scenario-logger-testing'),
+            'host' => env('DB_HOST'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+            'database' => env('DB_DATABASE'),
+            'prefix' => '',
+        ]);
+
+        $app['config']->set('database.connections.laravel-scenario-logger-testing', [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+            'database' => env('DB_DATABASE'),
             'prefix' => '',
         ]);
     }

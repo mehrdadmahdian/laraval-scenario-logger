@@ -11,21 +11,23 @@ return [
         ],
     ],
 
-    'active-services' => [
-        'log-model-changes',
-        'log-request',
-        'log-response',
-        'log-exception',
-        'log-manual-trace',
-    ],
-
     'service-configuration' => [
-        'log-model-changes' => [
-            'models' => [
-            ],
-        ],
         'log-response' => [
+            'active' => true,
+            'class' => LogResponse::class,
             'disable-store-content' => false,
+        ],
+        'log-request' => [
+            'active' => true,
+            'class' => LogRequest::class,
+        ],
+        'log-exception' => [
+            'active' => true,
+            'class' => LogException::class,
+        ],
+        'log-manual-trace' => [
+            'active' => true,
+            'class' => LogManualTrace::class,
         ],
     ],
 ];

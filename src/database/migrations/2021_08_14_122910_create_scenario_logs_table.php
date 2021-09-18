@@ -11,11 +11,11 @@ class CreateScenarioLogsTable extends Migration
     /**
      * Run the migrations.
      *
-     * @return voidd
+     * @return void
      */
     public function up()
     {
-        if ( $connectionName = Config::get('laravel-scenario-logger.driver.database.connection', null) );
+        if ( $connectionName = config('laravel-scenario-logger.driver.database.connection', null) );
         else {
             $connectionName = DB::getDefaultConnection();
         }
