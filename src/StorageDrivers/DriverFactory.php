@@ -34,7 +34,7 @@ class DriverFactory
     {
         return [
             'database'  => DatabaseDriver::class,
-            'laravel-log' => LaravelLogDriver::class,
+            'laravel_log' => LaravelLogDriver::class,
         ];
     }
 }

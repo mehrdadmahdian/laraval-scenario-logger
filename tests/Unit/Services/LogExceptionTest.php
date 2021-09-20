@@ -16,12 +16,12 @@ class LogExceptionTest extends BaseTestCase
      */
     public function it_works_when_an_exception_fires()
     {
-        $this->app['config']->set('laravel-scenario-logger.default-driver', 'database');
+        $this->app['config']->set('laravel-scenario-logger.default_storage_driver', 'database');
 
         $this->get('/a-route-with-exception');
         $scenarioLog = ScenarioLog::first();
 
-        $this->assertArrayHasKey('log-exception', (array) $scenarioLog->raw_log['services']);
-        $this->assertStringContainsString('Undefined variable $undefined_variable', $scenarioLog->raw_log['services']['log-exception']['message']);
+        $this->assertArrayHasKey('log_exception', (array) $scenarioLog->raw_log['services']);
+        $this->assertStringContainsString('this is an example exception message', $scenarioLog->raw_log['services']['log_exception']['message']);
     }
 }

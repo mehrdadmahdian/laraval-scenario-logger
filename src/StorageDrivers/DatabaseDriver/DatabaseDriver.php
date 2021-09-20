@@ -3,6 +3,8 @@
 namespace Escherchia\LaravelScenarioLogger\StorageDrivers\DatabaseDriver;
 
 use Escherchia\LaravelScenarioLogger\StorageDrivers\StorageDriverInterface;
+use Illuminate\Database\Connection;
+use Illuminate\Database\DatabaseManager;
 
 class DatabaseDriver implements StorageDriverInterface
 {

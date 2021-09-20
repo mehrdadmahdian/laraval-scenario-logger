@@ -26,7 +26,7 @@ class StorageService
     public function setDriver($driverKey = null)
     {
         if (!$driverKey) {
-            $driverKey = Config::has('laravel-scenario-logger.default') ? Config::get('laravel-scenario-logger.default') : 'database';
+            $driverKey = Config::get('laravel-scenario-logger.default_storage_driver', 'database');
         }
 
         $this->driver = DriverFactory::factory($driverKey);

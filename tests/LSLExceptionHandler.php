@@ -36,7 +36,7 @@ class LSLExceptionHandler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            ScenarioLogger::logForService('log-exception', $e);
+            ScenarioLogger::logForService('log_exception', $e);
             ScenarioLogger::finish();
         });
     }

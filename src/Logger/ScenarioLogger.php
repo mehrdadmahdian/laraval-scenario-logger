@@ -198,7 +198,7 @@ class ScenarioLogger
      */
     public static function trace(string $message, array $data = array()): void
     {
-        $logManualTrace = self::getInstance()->serviceContainer->get('log-manual-trace');
+        $logManualTrace = self::getInstance()->serviceContainer->get('log_manual_trace');
         if ($logManualTrace) {
             $backtrace  = debug_backtrace();
             $bt = $backtrace[1];

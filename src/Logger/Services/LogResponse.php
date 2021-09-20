@@ -33,8 +33,8 @@ class LogResponse implements LoggerServiceInterface
 //                'content_type' => $this->response ? get_class($this->response->getOriginalContent()) : null,
             ];
             if (
-                Config::has('laravel-scenario-logger.service-configuration.log-response.disable-store-content') &&
-                Config::get('laravel-scenario-logger.service-configuration.log-response.disable-store-content')) {
+                Config::has('laravel-scenario-logger.service_configuration.log_response.disable-store-content') &&
+                Config::get('laravel-scenario-logger.service_configuration.log_response.disable-store-content')) {
                 unset($data['content']);
             }
         }
