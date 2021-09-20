@@ -17,7 +17,7 @@ class DriverTest extends \Tests\BaseTestCase
      */
     public function it_stores_data_with_default_driver()
     {
-        $this->app['config']->set('laravel-scenario-logger.default-driver', 'database');
+        $this->app['config']->set('laravel-scenario-logger.default_storage_driver', 'database');
 
         app()->make(StorageService::class)->store([]);
 

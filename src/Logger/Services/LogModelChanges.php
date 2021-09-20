@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\TransactionBeginning;
 use Illuminate\Database\Events\TransactionCommitted;
 use Illuminate\Database\Events\TransactionRolledBack;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 
 class LogModelChanges implements LoggerServiceInterface
@@ -98,7 +97,7 @@ class LogModelChanges implements LoggerServiceInterface
      */
     private function modelShouldBeTracked($model): bool
     {
-        $tobeTrackedModels = Config::get('laravel-scenario-logger.service-configuration.log-model-changes.models');
+        $tobeTrackedModels = config('laravel-scenario-logger.service_configuration.log_model_changes.models', []);
 
         if (in_array($model, $tobeTrackedModels)) {
             return true;

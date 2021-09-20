@@ -23,7 +23,7 @@ class BaseTestCase extends TestCase
     {
         $this->loadLaravelMigrations();
 
-        $this->artisan('migrate:refresh', ['--database' => 'testing'])->run();
+        $this->artisan('migrate:refresh', ['--database' => 'normal'])->run();
     }
 
     /**
@@ -47,19 +47,21 @@ class BaseTestCase extends TestCase
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('database.default', 'normal');
-        
+
         $app['config']->set('database.connections.normal', [
             'driver' => 'mysql',
             'host' => env('DB_HOST'),
+            'port' => env('DB_PORT',3307),
             'username' => env('DB_USERNAME'),
             'password' => env('DB_PASSWORD'),
             'database' => env('DB_DATABASE'),
             'prefix' => '',
         ]);
 
-        $app['config']->set('database.connections.laravel-scenario-logger-testing', [
+        $app['config']->set('database.connections.alternate', [
             'driver' => 'mysql',
             'host' => env('DB_HOST'),
+            'port' => env('DB_PORT',3307),
             'username' => env('DB_USERNAME'),
             'password' => env('DB_PASSWORD'),
             'database' => env('DB_DATABASE'),
@@ -71,6 +73,11 @@ class BaseTestCase extends TestCase
     {
         $router->get('/test', function(){
             return 'here';
+        });
+        $router->get('/a-route-with-exception', function(){
+            throw new \Exception(
+                'this is an example exception message'
+            );
         });
     }
 }

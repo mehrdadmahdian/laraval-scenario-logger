@@ -1,33 +1,49 @@
 <?php
 
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogException;
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogManualTrace;
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogModelChanges;
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogRequest;
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogResponse;
+
 return [
 
     'is_active' => true,
-    'default-driver' => 'database',
+    'default_storage_driver' => 'database',
 
-    'drivers' => [
+    'storage_drivers' => [
         'database' => [
-            'connection' => 'testing',
+            'connection' => 'normal',
         ],
+        'laravel_log' => [
+            'channel' => 'single',
+        ]
     ],
 
-    'service-configuration' => [
-        'log-response' => [
+    'service_configuration' => [
+        'log_response' => [
             'active' => true,
             'class' => LogResponse::class,
             'disable-store-content' => false,
         ],
-        'log-request' => [
+        'log_request' => [
             'active' => true,
             'class' => LogRequest::class,
         ],
-        'log-exception' => [
+        'log_exception' => [
             'active' => true,
             'class' => LogException::class,
         ],
-        'log-manual-trace' => [
+        'log_manual_trace' => [
             'active' => true,
             'class' => LogManualTrace::class,
+        ],
+        'log_model_changes' => [
+            'active' => true,
+            'class' => LogModelChanges::class,
+            'models' => [
+                // model goes here
+            ],
         ],
     ],
 ];
