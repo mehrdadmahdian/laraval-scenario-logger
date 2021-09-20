@@ -11,7 +11,7 @@ class LaravelLogDriver implements StorageDriverInterface
     {
         $level = 'info';
         $message = 'laravel_log';
-        $channel = config('laravel-scenario-logger.drivers.laravel-log.channel', null);
+        $channel = config('laravel-scenario-logger.storage_drivers.laravel_log.channel', null);
         Log::channel($channel)->write($level, $message, $data);
 
         return true;

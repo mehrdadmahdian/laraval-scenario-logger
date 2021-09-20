@@ -7,7 +7,7 @@ use Tests\BaseTestCase;
 
 class MainTest extends BaseTestCase
 {
-//    use RefreshDatabase;
+    use RefreshDatabase;
 
     /** @test */
     public function it_just_tests_making_request()

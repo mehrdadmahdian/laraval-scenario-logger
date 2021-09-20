@@ -11,7 +11,7 @@ class ScenarioLog extends Model
     {
         parent::__construct($attributes);
 
-        $this->setConnection(config('laravel-scenario-logger.drivers.database.connection', null));
+        $this->setConnection(config('laravel-scenario-logger.storage_drivers.database.connection.default', null));
     }
 
     /**

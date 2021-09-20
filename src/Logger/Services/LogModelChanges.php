@@ -97,7 +97,7 @@ class LogModelChanges implements LoggerServiceInterface
      */
     private function modelShouldBeTracked($model): bool
     {
-        $tobeTrackedModels = config('laravel-scenario-logger.service-configuration.log-model-changes.models', []);
+        $tobeTrackedModels = config('laravel-scenario-logger.service_configuration.log_model_changes.models', []);
 
         if (in_array($model, $tobeTrackedModels)) {
             return true;
