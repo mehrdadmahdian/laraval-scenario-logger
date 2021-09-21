@@ -3,8 +3,8 @@
 namespace Escherchia\LaravelScenarioLogger\Middleware;
 
 use Closure;
-use Escherchia\LaravelScenarioLogger\Logger\ScenarioLogger;
 use Illuminate\Support\Facades\Auth;
+use Escherchia\LaravelScenarioLogger\Logger\ScenarioLogger;
 
 class LaravelScenarioLoggerMiddleware
 {
@@ -17,13 +17,14 @@ class LaravelScenarioLoggerMiddleware
     {
         if (lsl_is_active()) {
             ScenarioLogger::start();
-            lsl_service_is_active('log_request') ? ScenarioLogger::logForService('log_request', $request) : null;
-            Auth::check() ? ScenarioLogger::setUser(Auth::user()) : null;
+
             $response = $next($request);
-            lsl_service_is_active('log_response') ? ScenarioLogger::logForService('log_response', $response) : null;
+            ScenarioLogger::logForService('log_user', Auth::user());
+            ScenarioLogger::logForService('log_response', $response);
             ScenarioLogger::finish();
 
             return $response;
+
         } else {
             return $next($request);
         }

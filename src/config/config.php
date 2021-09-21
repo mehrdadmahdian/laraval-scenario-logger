@@ -1,10 +1,11 @@
 <?php
 
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogUser;
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogRequest;
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogResponse;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LogException;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LogManualTrace;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LogModelChanges;
-use Escherchia\LaravelScenarioLogger\Logger\Services\LogRequest;
-use Escherchia\LaravelScenarioLogger\Logger\Services\LogResponse;
 
 return [
 
@@ -21,6 +22,10 @@ return [
     ],
 
     'service_configuration' => [
+        'log_user' => [
+            'active' => true,
+            'class' => LogUser::class
+        ],
         'log_response' => [
             'active' => true,
             'class' => LogResponse::class,

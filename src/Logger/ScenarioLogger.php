@@ -3,8 +3,6 @@
 namespace Escherchia\LaravelScenarioLogger\Logger;
 
 use Carbon\Carbon;
-use Escherchia\LaravelScenarioLogger\Contracts\ScenarioLoggerUserProviderInterface;
-use Escherchia\LaravelScenarioLogger\Logger\Services\LoggerServiceFactory;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LoggerServiceInterface;
 use Escherchia\LaravelScenarioLogger\StorageDrivers\StorageService;
 use Exception;
@@ -37,11 +35,6 @@ class ScenarioLogger
      * @var StorageService
      */
     private $storageService;
-
-    /**
-     * @var ScenarioLoggerUserProviderInterface
-     */
-    private $user;
 
     /**
      * @var string
@@ -141,14 +134,12 @@ class ScenarioLogger
         foreach (self::getInstance()->serviceContainer->all() as $key => $service) {
             $report = $service->report() ;
             if (count($report)) {
-                $serviceReports[$key] = $service->report();
+                $serviceReports[$key] = $report;
             }
         }
 
         return [
             'scenario-name' => self::getInstance()->name,
-            'user_id' => self::getInstance()->user ? self::getInstance()->user->getId() : null,
-            'user_name' => self::getInstance()->user ? self::getInstance()->user->getId(): null,
             'started_at' => self::getInstance()->started_at,
             'finished_at' => self::getInstance()->finished_at,
             'services' => $serviceReports,
@@ -166,22 +157,17 @@ class ScenarioLogger
 
     /**
      * @param $serviceKey
-     * @param mixed ...$data
+     * @param null|mixed ...$data
      */
-    public static function logForService($serviceKey, $data): void
+    public static function logForService($serviceKey, $data = null): void
     {
-        $service = self::getInstance()->serviceContainer->get($serviceKey);
-        if ($service and $service instanceof LoggerServiceInterface) {
-            $service->log($data);
+        if (lsl_service_is_active($serviceKey)) {
+            $service = self::getInstance()->serviceContainer->get($serviceKey);
+            if ($service and $service instanceof LoggerServiceInterface) {
+                $service->log($data);
+            }
         }
-    }
-
-    /**
-     * @param ScenarioLoggerUserProviderInterface $user
-     */
-    public static function setUser(ScenarioLoggerUserProviderInterface $user)
-    {
-        self::getInstance()->user = $user;
+      
     }
 
     /**

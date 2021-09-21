@@ -20,7 +20,6 @@ class LogExceptionTest extends BaseTestCase
 
         $this->get('/a-route-with-exception');
         $scenarioLog = ScenarioLog::first();
-
         $this->assertArrayHasKey('log_exception', (array) $scenarioLog->raw_log['services']);
         $this->assertStringContainsString('this is an example exception message', $scenarioLog->raw_log['services']['log_exception']['message']);
     }
