@@ -21,8 +21,8 @@ class BaseTestCase extends TestCase
      */
     protected function defineDatabaseMigrations()
     {
+        
         $this->loadLaravelMigrations();
-
         $this->artisan('migrate:refresh', ['--database' => 'normal'])->run();
     }
 

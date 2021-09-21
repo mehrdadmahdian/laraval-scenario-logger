@@ -29,53 +29,27 @@
     composer require escherchia/laravel-scenario-logger
 ```
 
-2. add package service provider to app providers at `config/app.php`:
-```php
-    ...
-       /*
-        * Package Service Providers...
-        */
-        Escherchia\LaravelScenarioLogger\LaravelScenarioLoggerServiceProvider::class
-    ...
-```
-
-3. in order to handle logging on exceptions add this lines of code to Your default exception handler(usually `App\Exception\Handler`):
+2. In order to handle logging on exceptions add this lines of code to Your default exception handler(usually `App\Exception\Handler`):
 
 ```php
     use Escherchia\LaravelScenarioLogger\Logger\ScenarioLogger;
     public function register()
     {
             $this->reportable(function (Throwable $e) {
-                ScenarioLogger::logForService('log-exception', $e);
+                ScenarioLogger::logForService('log_exception', $e);
                 ScenarioLogger::finish();
             });
     }
         ...
 ```
 
-4. App/User class must implement `ScenarioLoggerUserProviderInterface` like this:
-
-```php
-    use Escherchia\LaravelScenarioLogger\Contracts\ScenarioLoggerUserProviderInterface;
-
-    class User extends Authenticatable implements ScenarioLoggerUserProviderInterface 
-    {
-        public function getId(){
-            // please write proper implementation here to present user id
-        }
-        public function getName(){
-            // please write proper implementation here to present user name
-        }
-    }
-```
-
-5. run publish command on your shell if your want to access package configuration file in your application:
+3. run publish command on your shell if your want to access package configuration file in your application:
 
 ```shell script
       php artisan vendor:publish
 ```
 
-6. run migrations to ensure you have proper tables in database :
+4. run migrations to ensure you have proper tables in database :
 
 ```shell script
       php artisan migrate
@@ -107,7 +81,7 @@ please select `LaravelScenarioLoggerServiceProvider` in order to publish package
  
  ```php
 ...
-    'default' => Path\TO\YourStorageDriver,
+    'default_storage_driver' => Path\TO\YourStorageDriver,
 ...
 ```
 
@@ -118,7 +92,7 @@ if you decide to use built-in database driver to log your scenarios art persiste
 which database driver should be used.
  ```php
 ...
-    'storage-driver-configuration' => [
+    'storage_drivers' => [
         'database' => [
             'connection' => 'your-connection-name'
         ]   
@@ -128,32 +102,39 @@ which database driver should be used.
  ### logger services
  
  for each scenario each part of logging is handled by a dedicated module. 
- you can remove this feature from process of scenario logger by commeting this module on list of active services:
+ you can remove this feature from process of scenario logger by commenting this module on list of active services:
 ```php
 ...
-  'active-services' => [
-         'log-model-changes',
-         'log-request',
-         'log-response',
-         'log-exception',
-         'log-manual-trace'
+  'service_configuration' => [
+     'log_user' => [
+        'active' => true,
+        'class' => LogUser::class
+    ],
+    'log_response' => [
+        'active' => true,
+        'class' => LogResponse::class,
+        'disable-store-content' => false,
+    ],
+    'log_request' => [
+        'active' => true,
+        'class' => LogRequest::class,
+    ],
+    'log_exception' => [
+        'active' => true,
+        'class' => LogException::class,
+    ],
+    'log_manual_trace' => [
+        'active' => true,
+        'class' => LogManualTrace::class,
+    ],
+    'log_model_changes' => [
+        'active' => true,
+        'class' => LogModelChanges::class,
+        'models' => [
+            // model goes here
+        ],
+    ],
   ]
-...
-```
-each service could be have its own configuration. service's specific configuration could be found like this:
-
-```php
-...
-  'service-configuration' => [
-          'log-model-changes' => [
-              'models' => [
-                  User::class
-              ]
-          ],
-          'log-response' => [
-              'disable-store-content' => true
-          ]
-      ]
 ...
 ```
 
@@ -196,17 +177,11 @@ Project Link: [laraval-scenario-logger](https://github.com/escherchia/laraval-sc
 - descriptive comment for config items
 - update dependencies to proper versions in composer.json
 - support logger in console mode
-- improve test scenarios
-- add test instruction
 
 # Suggested Features
 
 - log viewer utility
 - console commands scenario logs
-- file storage driver
 - ability to store logs in queue
-- independent service for user
-- database driver improvement
-- configuration optimization
 
 

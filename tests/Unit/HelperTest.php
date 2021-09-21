@@ -47,7 +47,7 @@ class HelperTest extends \Tests\BaseTestCase
      */
     public function it_returns_true_when_service_active()
     {
-        $this->app['config']->set('laravel-scenario-logger.active-services', [
+        $this->app['config']->set('laravel-scenario-logger.service_configuration', [
             'a',
             'b',
         ]);
@@ -60,7 +60,7 @@ class HelperTest extends \Tests\BaseTestCase
      */
     public function it_returns_true_when_service_is_not_active()
     {
-        $this->app['config']->set('laravel-scenario-logger.active-services', [
+        $this->app['config']->set('laravel-scenario-logger.service_configuration', [
             'a',
             'b',
         ]);

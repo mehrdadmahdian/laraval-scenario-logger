@@ -21,8 +21,9 @@ function lsl_is_active()
  */
 function lsl_service_is_active($serviceKey): bool
 {
-    $activeServices = config('laravel-scenario-logger.active-services', []);
-    if (in_array($serviceKey, $activeServices)) {
+    $activeServices = config('laravel-scenario-logger.service_configuration', []);
+    if (array_key_exists($serviceKey, $activeServices) or in_array($serviceKey, $activeServices)) {
+    // if (in_array($serviceKey, $activeServices)) {
         return true;
     }
 
