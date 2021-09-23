@@ -1,5 +1,6 @@
 <?php
 
+use Escherchia\LaravelScenarioLogger\Logger\Services\LogConsole;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LogUser;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LogRequest;
 use Escherchia\LaravelScenarioLogger\Logger\Services\LogResponse;
@@ -42,6 +43,10 @@ return [
         'log_manual_trace' => [
             'active' => true,
             'class' => LogManualTrace::class,
+        ],
+        'log_console' => [
+            'active' => true,
+            'class' => LogConsole::class,
         ],
         'log_model_changes' => [
             'active' => true,
