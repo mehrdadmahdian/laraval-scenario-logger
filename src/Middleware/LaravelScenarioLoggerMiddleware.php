@@ -17,7 +17,7 @@ class LaravelScenarioLoggerMiddleware
     {
         if (lsl_is_active()) {
             ScenarioLogger::start();
-
+            ScenarioLogger::logForService('log_request', $request);
             $response = $next($request);
             ScenarioLogger::logForService('log_user', Auth::user());
             ScenarioLogger::logForService('log_response', $response);
