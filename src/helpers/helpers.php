@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Escherchia\LaravelScenarioLogger\Exceptions\BadConfigurationException;
 
 /**
  * @return \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed|null
@@ -11,7 +12,7 @@ function lsl_is_active()
 {
     $value = config('laravel-scenario-logger.is_active');
 
-    throw_if( is_null($value) or !is_bool($value), new \Escherchia\LaravelScenarioLogger\Exceptions\BadConfigException() );
+    throw_if( is_null($value) or !is_bool($value), new BadConfigurationException() );
     return $value;
 }
 
@@ -36,6 +37,6 @@ function lsl_active_services()
     $activeServices = Arr::where($services, function($item) {
         return Arr::get($item, 'active', true);
     });
-    
+
     return $activeServices;
 }

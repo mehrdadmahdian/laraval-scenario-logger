@@ -4,7 +4,7 @@
 namespace Tests\Unit;
 
 
-use Escherchia\LaravelScenarioLogger\Exceptions\BadConfigException;
+use Escherchia\LaravelScenarioLogger\Exceptions\BadConfigurationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class HelperTest extends \Tests\BaseTestCase
@@ -36,7 +36,7 @@ class HelperTest extends \Tests\BaseTestCase
      */
     public function it_get_exception_when_seted_wrong()
     {
-        $this->expectException(BadConfigException::class);
+        $this->expectException(BadConfigurationException::class);
         $this->app['config']->set('laravel-scenario-logger.is_active', 'aWrongText');
 
         lsl_is_active();
