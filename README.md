@@ -174,14 +174,13 @@ Project Link: [laraval-scenario-logger](https://github.com/escherchia/laraval-sc
 
 
 # Todo
-- descriptive comment for config items
 - update dependencies to proper versions in composer.json
-- support logger in console mode
+- document for excluded routes
+- add excluded command feature
 
 # Suggested Features
 
 - log viewer utility
-- console commands scenario logs
 - ability to store logs in queue
 
 

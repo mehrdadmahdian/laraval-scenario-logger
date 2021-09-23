@@ -110,13 +110,19 @@ class ScenarioLogger
     {
         $excludedRoutes = array();
 
-        if (Config::has('laravel-scenario-logger.excluded-routes')) {
-            if (is_array(Config::get('laravel-scenario-logger.excluded-routes'))) {
-                $excludedRoutes  = Config::get('laravel-scenario-logger.excluded-routes');
+        if (Config::has('laravel-scenario-logger.excluded_routes')) {
+            if (is_array(Config::get('laravel-scenario-logger.excluded_routes'))) {
+                $excludedRoutes  = Config::get('laravel-scenario-logger.excluded_routes');
             }
         }
         if (!app()->runningInConsole() && request()) {
-            if (in_array(request()->getRequestUri(), $excludedRoutes, true)) {
+            if (
+                in_array(
+                    str_replace(request()->getSchemeAndHttpHost(), '', url()->current()),
+                    $excludedRoutes,
+                    true
+                )
+            ) {
                 return false;
             }
         }
@@ -151,8 +157,10 @@ class ScenarioLogger
      */
     public static function finish(): void
     {
-        self::getInstance()->finished_at = Carbon::now()->format('Y-m-d H:i:s.u');
-        self::getInstance()->storageService->store(static::report());
+        if (self::isStarted()) {
+            self::getInstance()->finished_at = Carbon::now()->format('Y-m-d H:i:s.u');
+            self::getInstance()->storageService->store(static::report());
+        }
     }
 
     /**
@@ -161,10 +169,12 @@ class ScenarioLogger
      */
     public static function logForService($serviceKey, $data = null): void
     {
-        if (lsl_service_is_active($serviceKey)) {
-            $service = self::getInstance()->serviceContainer->get($serviceKey);
-            if ($service and $service instanceof LoggerServiceInterface) {
-                $service->log($data);
+        if (self::isStarted()) {
+            if (lsl_service_is_active($serviceKey)) {
+                $service = self::getInstance()->serviceContainer->get($serviceKey);
+                if ($service and $service instanceof LoggerServiceInterface) {
+                    $service->log($data);
+                }
             }
         }
 
@@ -175,7 +185,9 @@ class ScenarioLogger
      */
     public static function setScenarioName(string $name): void
     {
-        self::getInstance()->name = $name;
+        if (self::isStarted()) {
+            self::getInstance()->name = $name;
+        }
     }
 
     /**
@@ -184,17 +196,19 @@ class ScenarioLogger
      */
     public static function trace(string $message, array $data = array()): void
     {
-        $logManualTrace = self::getInstance()->serviceContainer->get('log_manual_trace');
-        if ($logManualTrace) {
-            $backtrace  = debug_backtrace();
-            $bt = $backtrace[1];
-            $logManualTrace->manualLog(
-                $message,
-                $data,
-                isset($bt['class']) ? $bt['class'] : null,
-                isset($bt['function']) ? $bt['function'] : null,
-                isset($bt['line']) ? $bt['line'] : null
-            );
+        if (self::isStarted()) {
+            $logManualTrace = self::getInstance()->serviceContainer->get('log_manual_trace');
+            if ($logManualTrace) {
+                $backtrace = debug_backtrace();
+                $bt = $backtrace[1];
+                $logManualTrace->manualLog(
+                    $message,
+                    $data,
+                    isset($bt['class']) ? $bt['class'] : null,
+                    isset($bt['function']) ? $bt['function'] : null,
+                    isset($bt['line']) ? $bt['line'] : null
+                );
+            }
         }
     }
 }
