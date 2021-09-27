@@ -1,5 +1,5 @@
 {
-    "name": "escherchia/laravel-scenario-logger",
+    "name": "mehrdadmahdian/laravel-scenario-logger",
     "description": "This package helps you to track your requests in a single snapshot",
     "type": "libr",
     "license": "MIT",
